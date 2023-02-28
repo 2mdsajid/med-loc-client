@@ -1,88 +1,42 @@
 import React, { useEffect, useRef, useState } from 'react'
-import Displayimage from './Displayimage'
-import { log } from './Testtype'
-// import logo from '../../public/images'
-// import { userType } from './Testtype';
-import Countdown from 'react-countdown'
-
 import Cookies from 'js-cookie'; //cookies library
 
-import TestFor from './med/re-comp/TestFor';
+// use link to navigte to a.href || link = href || navigate = redirect
+import { Link, useNavigate } from 'react-router-dom'
 
-
-// use link to navigte to a.href
-import { Link, useNavigate } from 'react-router-dom';
-
-import Timer from './med/re-comp/Timer';
-
-
+// import logo from '../images'
 
 function Home() {
 
-  // userType.type = null
-
-  // navigate to a link
+  // navigate to a link || similar to href={}
   const history = useNavigate()
 
-  const style = {
-    margin: '10px',
-    padding: '5px',
-  }
+
 
   const routenewHome = (e) => {
     e.preventDefault()
-    const user_type = e.currentTarget.id
+    const user_type = e.currentTarget.id //give the input value from the user type
 
-    // console.log(user_type)
+    // storing the cookie about the user-type
+    Cookies.set('usertype', user_type, { expires: 99 });
 
-    Cookies.set('usertype',user_type , { expires: 99 });
-
-
-    // to pass the ID of the type to new home page
+    // to pass to new home page
     history('/home')
-
-    // userType.type = user_type
-
-  }
-
-  const handleCountdownComplete = (e) =>{
-    // inputRef.current.click()
-    // console.log('current btn id',e.currentTarget.id)
-    console.log('button clicked for test')
-  }
-
-  const handleSec = (seconds) =>{
-    console.log('seconds',seconds.seconds)
-  }
-
-   // TO USE THE DOM ELEMENT EVENTS
-   const inputRef = useRef(null);
-
-  const handlebuttonclick = () =>{
-    console.log('button clicked')
-    
   }
 
   useEffect(() => {
-    Cookies.remove('usertype');
-    // console.log('rmv cookie')
+    Cookies.remove('usertype') //to remove the cookie on returning to this page
   }, []);
 
 
   return (
-    <>
-
-    {/* <TestFor onClickEvent={handleCountdownComplete} />
-    <Countdown date={Date.now() + 5000} onComplete={handleCountdownComplete} onTick={handleSec}/> */}
-    {/* <button ref={inputRef} onClick={handlebuttonclick}>click me</button>  */}
-
-    {/* <Timer expiryTimestamp={Date.now() + 20000} onExpire={handleCountdownComplete} /> */}
-
-      <h4 className='home1-wlcm'>welcome to medlocus</h4>
-      {/* <img src={logo} alt="" /> */}
-      <button id='aspirant' type='submits' style={style} onClick={routenewHome} >Aspirant</button>
-      <button id='student' type='submits' style={style} onClick={routenewHome} >Student</button>
-    </>
+    <div className='home-main'>
+      <h2 className='home1-wlcm'>WELCOME TO <span style={{color:"#01C7F8"}}>MEDLOCUS</span></h2>
+      <img className='' src='/images/logo.png' alt="" />
+      <h3>CONTINUE AS</h3>
+      <button id='aspirant' type='submits' onClick={routenewHome} >Medical <span>Aspirant</span></button>
+      <button id='student' type='submits' onClick={routenewHome} >Medical <span>Student</span></button>
+    </div>
   )
 }
 
