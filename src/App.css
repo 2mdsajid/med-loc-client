@@ -26,7 +26,8 @@
 
 .home-main > img {
   width: 25vw;
-  
+  max-width: 170px;
+  margin-top: 20px;
 }
 
 .home-main h4{

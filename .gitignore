@@ -11,6 +11,8 @@
 # production
 /build
 
+# package to avoid proxy
+
 # misc
 .DS_Store
 .env.local

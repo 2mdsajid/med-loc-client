@@ -6,6 +6,9 @@ import { Link, useNavigate } from 'react-router-dom'
 
 // import logo from '../images'
 
+// material ui import
+import {Button} from '@mui/material'
+
 function Home() {
 
   // navigate to a link || similar to href={}
@@ -34,6 +37,7 @@ function Home() {
       <h2 className='home1-wlcm'>WELCOME TO <span style={{color:"#01C7F8"}}>MEDLOCUS</span></h2>
       <img className='' src='/images/logo.png' alt="" />
       <h3>CONTINUE AS</h3>
+      <Button variant="contained">this is a button</Button>
       <button id='aspirant' type='submits' onClick={routenewHome} >Medical <span>Aspirant</span></button>
       <button id='student' type='submits' onClick={routenewHome} >Medical <span>Student</span></button>
     </div>
