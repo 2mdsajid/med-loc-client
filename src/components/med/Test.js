@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 // import SubTestTitleDisplay from './re-comp/SubTestTitleDisplay'
 import ROOT from '../Const';
-import Header from './re-comp/Header'
+import Header,{SupraHeader} from './re-comp/Header'
 
 function TestButtonList({ tests, categoryFilter, onClick }) {
   const filteredTests = tests.filter(test => test.category === categoryFilter)
@@ -13,10 +13,10 @@ function TestButtonList({ tests, categoryFilter, onClick }) {
 
   return (
     <>
-      <h3 className='text-2xl capitalize ml-3 my-5 font-medium underline '>{categoryFilter}</h3>
+      <h3 className='text-2xl text-pcolor capitalize ml-3 my-5 font-medium underline '>{categoryFilter}</h3>
       <div className='ml-3'>
       {filteredTests.map(test => (
-        <button className='border m-1 p-2 bg-btnbg text-black hover:bg-blue-500 font-medium hover:text-white rounded-xl'
+        <button className='border m-1 p-2 bg-btnbg text-pcolor border-black drop-shadow-lg hover:bg-blue-500 font-medium hover:text-white rounded-xl'
           key={test.testname}
           id={test.testname}
           type='submit'
@@ -76,8 +76,8 @@ function Test() {
 
 
   return (
-    <div className='h-screen bg-pcolor text-white'>
-    <Header />
+    <div className='h-screen bg-testbg text-white'>
+    <SupraHeader />
       <TestButtonList tests={tests} categoryFilter='modeltest' onClick={CollectUserData} />
       <TestButtonList tests={tests} categoryFilter='dailytest' onClick={CollectUserData} />
       <TestButtonList tests={tests} categoryFilter='weeklytest' onClick={CollectUserData} />

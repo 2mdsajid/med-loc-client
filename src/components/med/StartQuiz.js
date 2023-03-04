@@ -6,6 +6,8 @@ import { storelocalStorage, loadlocalStorage, updatelocalStorage } from './funct
 
 import ROOT from '../Const';
 
+import { SupraHeader } from './re-comp/Header'
+
 // var objData;
 function StartQuiz() {
 
@@ -245,7 +247,7 @@ function StartQuiz() {
     }, []);
 
     return (
-        <>
+        <div className=''>
             <h4>quiz page</h4><br /><br />
             <div className="q">
                 <div className="left">
@@ -253,8 +255,6 @@ function StartQuiz() {
                     <hr />
                     <p>{test.username}</p>
                     <h3>{test.userlevel}</h3>
-                    <p>score : {rightscore}</p>
-                    <p>wrong : {wrongscore}</p>
                 </div>
                 <div className="middle">
                     <p>quiz</p>
@@ -285,7 +285,7 @@ function StartQuiz() {
                     {/* <Timer expiryTimestamp={expiryTimestamp} onExpire={handleCountdownComplete} /> */}
                 </div>
             </div>
-        </>
+        </div>
     )
 }
 

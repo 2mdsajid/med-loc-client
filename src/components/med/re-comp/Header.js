@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 const SupraHeader = (props) => {
 
   return (
-    <div className="bg-navtxt h-14 w-screen flex items-center justify-between sticky">
+    <div className="bg-pcolor h-14 w-screen flex items-center justify-between sticky">
       <h1 className='font-bold ml-3 text-xl text-txt'>MEDLOCUS</h1>
       <h1 className='font-bold mr-3 text-xl text-white'>{props.user_type}</h1>
     </div>

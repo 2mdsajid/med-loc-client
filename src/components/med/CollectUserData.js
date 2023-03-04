@@ -9,6 +9,8 @@ import ROOT from '../Const';
 
 import names from 'random-indian-name'
 import Cookies from 'js-cookie';
+
+import { SupraHeader } from './re-comp/Header';
 // var names = require();
 
 // GET INPUT FROM THE ANSWERS
@@ -65,11 +67,10 @@ const CollectUserData = () => {
 
         if (props.time.type === 'free') {
             setshowstartButton(true)
-            return <><p>Time : {props.time.value} seconds</p><br/>
-            <button onClick={startQuiz}>start test</button></>
+            return <button className='bg-starttestcolor border p-1 rounded-md border-pcolor text-pcolor font-semibold hover:bg-cyan-900 hover:text-white ' onClick={startQuiz}>start test</button>
         } else {
             // uncomment --------------------------------------
-            return <>{showstarttestButton ? <button onClick={startQuiz}>start test</button> : <p>Test starts in: <Timer expiryTimestamp={Date.now() + timeForTheTest} onExpire={handleCountdownComplete} /></p>}</>;
+            return <>{showstarttestButton ? <button className='bg-starttestcolor border p-1 rounded-md border-pcolor text-pcolor font-semibold hover:bg-cyan-900 hover:text-white ' onClick={startQuiz}>start test</button> : <p>Test starts in: <Timer expiryTimestamp={Date.now() + timeForTheTest} onExpire={handleCountdownComplete} /></p>}</>;
             // return <button onClick={startQuiz}>start test</button>
         }
     }
@@ -86,15 +87,15 @@ const CollectUserData = () => {
     const getUserName = async () => {
         const logintoken = Cookies.get("logintoken")
         try {
-            const res = await fetch(ROOT+'/getusername', {
-                 // mode: 'no-cors',
-                 method: 'POST',
-                 headers: {
-                     "Content-Type": "application/json"
-                 },
-                 body: JSON.stringify({
-                     logintoken: logintoken
-                 })
+            const res = await fetch(ROOT + '/getusername', {
+                // mode: 'no-cors',
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    logintoken: logintoken
+                })
             })
             const data = await res.json()
 
@@ -114,6 +115,9 @@ const CollectUserData = () => {
             // console.log('start quiz')
         } else {
             setnonameWarning('please provide a name')
+            const removeNoNameWarning = setTimeout(() => {
+                setnonameWarning('')
+            }, 2000);
         }
 
     }
@@ -122,26 +126,31 @@ const CollectUserData = () => {
         getUserName()
     }, [])
 
-    return (
-        <>
-            <h3>test type: {typeoftest.testname}</h3>
-            {typeoftest.physics && <p>physics : {typeoftest.physics} questions</p>}
-            {typeoftest.chemistry && <p>chemistry : {typeoftest.chemistry} questions</p>}
-            {typeoftest.biology && <p>biology : {typeoftest.biology} questions</p>}
-            {typeoftest.mat && <p>MAT : {typeoftest.mat} questions</p>}
-            {/* {typeoftest.time.value && <p>Time : {typeoftest.time.value} seconds</p>}
-             */}
+    return (<div className='bg-testbg h-screen w-screen flex flex-col'>
+        <SupraHeader />
+        <div className='w-full h-full border sm:grid sm:place-items-center'>
+            <div id='test' className='pl-3 pt-5 sm:border sm:bg-cyan-400 drop-shadow-xl rounded-lg border-black sm:w-1/2 md:w-2/5 xl:w-2/5'>
+                <h3 className='border border-pcolor text-3xl inline-block p-2.5 my-5 bg-pcolor text-white capitalize rounded-xl'>test type : {typeoftest.testname}</h3>
+                {userloggedin && <p className='text-xl'><span className='font-bold'>username :</span> {username}</p>}
+                {typeoftest.physics && <p className='text-xl'><span className='font-bold'>Physics :</span> {typeoftest.physics} questions</p>}
+                {typeoftest.chemistry && <p className='text-xl'><span className='font-bold'>Chemistry :</span> {typeoftest.chemistry} questions</p>}
+                {typeoftest.biology && <p className='text-xl'><span className='font-bold'>Biology :</span> {typeoftest.biology} questions</p>}
+                {typeoftest.mat && <p className='text-xl'><span className='font-bold'>MAT :</span> {typeoftest.mat} questions</p>}
+                {typeoftest.time.value && <p className='text-xl'><span className='font-bold'>Time :</span> {typeoftest.time.value} seconds</p>}
 
-            {/* if user logged no input || username from userdatabase */}
-            {userloggedin ? <p>username : {username}</p> : <div className='usernameinput'><input type="text" placeholder="your name" name='c'
-                value={username}
-                onChange={(e) => setuserName(e.currentTarget.value)}
-            /><button  onClick={generateRandom}>generate random name</button>
-            </div>}
-            <ShowTime time={typeoftest.time} />
-            {/* {showstarttestButton ? <button onClick={startQuiz}>start test</button> : <> </>} */}
-            <p style={{ color: 'red' }}>{nonamewarning}</p>
-        </>
+
+                {/* if user logged no input || username from userdatabase */}
+                {!userloggedin && <div className='mt-5 mb-5'><input className='border border-pcolor p-0.5 pl-1 mr-5 mb-5' type="text" placeholder="your name" name='c'
+                    value={username}
+                    onChange={(e) => setuserName(e.currentTarget.value)}
+                /><button className='border border-pcolor bg-rndmnamecolor py-0.5 px-3 text-pcolor font-bold rounded-lg hover:bg-slate-800 hover:text-white' onClick={generateRandom}>generate random name</button>
+                </div>}
+                <ShowTime time={typeoftest.time} />
+                {/* {showstarttestButton ? <button onClick={startQuiz}>start test</button> : <> </>} */}
+                <p className='my-5 text-red-600 font-semibold'>{nonamewarning}</p>
+            </div>
+        </div>
+    </div>
     )
 }
 
