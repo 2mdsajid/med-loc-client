@@ -247,42 +247,44 @@ function StartQuiz() {
     }, []);
 
     return (
-        <div className=''>
-            <h4>quiz page</h4><br /><br />
-            <div className="q">
-                <div className="left">
-                    <p>profile</p>
-                    <hr />
-                    <p>{test.username}</p>
-                    <h3>{test.userlevel}</h3>
+        <div className='bg-testbg  w-screen'>
+            <SupraHeader />
+            <div className=" flex px-3 w-fit sm:w-full sm:px-10 md:px-20 lg:px-32 xl:px-40">
+                <div className="left h-auto p-1.5 border border-pcolor rounded-xl bg-sky-500 fixed top-44 right-2 sm:right-5 md:right-16 lg:right-24 xl:right-36">
+                    <p className='font-semibold underline text-2xl'>status</p>
+                    <p><span className='font-semibold'>Name :</span> {test.username}</p>
+                    <p><span className='font-semibold'>Qn attempt =</span> {qnattempt}</p>
+                    {totaltime > 0 && <Timer expiryTimestamp={Date.now() + totaltime} onExpire={handleCountdownComplete} />}
                 </div>
-                <div className="middle">
-                    <p>quiz</p>
-                    <hr />
+                <div className="middle w-full flex flex-col">
+                    <div className=' grid place-items-center'>
+                        <p className='w-fit bg-pcolor text-white p-1 my-1.5 rounded-md'>Questions</p>
+                    </div>
+
+                    <div className='w-full mb-5'>
+                        <div className='h-full w-full bg-green-400 p-1 border border-pcolor rounded-lg'>
+                            <h1 className='font-bold text-xl'>Details of the Test :</h1>
+                            <p><span className='text-lg font-semibold'>Name :</span>&nbsp; {test.testname} </p>
+                            <p><span className='text-lg font-semibold'>Total Time :</span> &nbsp; {totaltime} minutes</p>
+                        </div>
+                    </div>
                     <form onSubmit={checkAnswers} action="" method="POST">
                         {
                             questions.map((question, index) => {
-                                return (<div className="question">
-                                    <p className="qn"><span className="qn-num">{index+1} </span> {question.qn} </p>
-                                    {question.img && <img style={{ height: '200px' }} src={question.img} alt="Question Image" />}
-                                    <div><input onChange={getInput} type="radio" id={question._id} name={index} value='a' /><label for="huey">{question.a}</label></div>
-                                    <div><input onChange={getInput} type="radio" id={question._id} name={index} value='b' /><label for="sth">{question.b}</label></div>
-                                    <div><input onChange={getInput} type="radio" id={question._id} name={index} value='c' /><label for="sth3">{question.c}</label></div>
-                                    <div><input onChange={getInput} type="radio" id={question._id} name={index} value='d' /><label for="sth4">{question.d}</label></div>
+                                return (<div className="question mb-5 bg-testbg">
+                                    <p className="qn font-bold text-lg"><span className="qn-num">Q.{index + 1}. </span> {question.qn} </p>
+                                    {question.img && <img className='m-3' style={{ height: '200px' }} src={question.img} alt="Question Image" />}
+                                    <div className='flex items-center'><input className='ml-3 w-5 h-5 cursor-pointer' onChange={getInput} type="radio" id={question._id} name={index} value='a' /><label className='ml-2 text-lg font-semibold' for="huey">{question.a}</label></div>
+                                    <div className='flex items-center'><input className='ml-3 w-5 h-5 cursor-pointer' onChange={getInput} type="radio" id={question._id} name={index} value='b' /><label className='ml-2 text-lg font-semibold' for="sth">{question.b}</label></div>
+                                    <div className='flex items-center'><input className='ml-3 w-5 h-5 cursor-pointer' onChange={getInput} type="radio" id={question._id} name={index} value='c' /><label className='ml-2 text-lg font-semibold' for="sth3">{question.c}</label></div>
+                                    <div className='flex items-center'><input className='ml-3 w-5 h-5 cursor-pointer' onChange={getInput} type="radio" id={question._id} name={index} value='d' /><label className='ml-2 text-lg font-semibold' for="sth4">{question.d}</label></div>
                                 </div>)
                             })
                         }
-
-                        <button type="submit" ref={inputRef}>submit answers</button>
+                        <div className='w-full flex justify-center'>
+                        <button className='bg-starttestcolor text-pcolor font-bold p-1.5 ml-5 my-10 border border-pcolor rounded-md hover:bg-pcolor hover:text-white' type="submit" ref={inputRef}>submit answers</button>
+                        </div>
                     </form>
-                </div>
-                <div className="right">
-                    <p>status</p>
-                    <hr />
-                    <p>qn attempt : {qnattempt}</p>
-                    {totaltime > 0 && <Timer expiryTimestamp={Date.now() + totaltime} onExpire={handleCountdownComplete} />}
-
-                    {/* <Timer expiryTimestamp={expiryTimestamp} onExpire={handleCountdownComplete} /> */}
                 </div>
             </div>
         </div>

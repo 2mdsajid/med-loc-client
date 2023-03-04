@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>date prank</title>
+    <style>
+        body{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+        .main {
+            height: 500px;
+            width: 500px;
+            /* border: solid 1px black; */
+            margin: 10px auto;
+            position: relative;
+            /* display: flex; */
+            /* align-items: center; */
+            /* justify-content: center; */
+            /* flex-direction: row; */
+        }
+        button{
+            margin: 5px;
+        }
+        h3{
+            margin-left: -150px;
+        }
+
+        #nobtn {
+            position: absolute;
+            /* top: 20px; */
+        }
+    </style>
+</head>
+
+<body>
+    <h3>Hey beautiful, wanna come on a date with me?</h3>
+    <div class="main">
+        
+        <button id="yesntn">YESSSS</button>
+        <button id="nobtn">NOOOOOO</button>
+
+    </div>
+
+    <script>
+
+        function getRandomNumber() {
+            return Math.floor(Math.random() * 400) + 1;
+        }
+        const btn = document.getElementById('nobtn')
+        const ybtn = document.getElementById('yesbtn')
+        btn.addEventListener('mouseover', function () {
+            const randomNumber1 = getRandomNumber();
+            const randomNumber2 = getRandomNumber();
+            //console.log(randomNumber); // Outputs a random number between 1 and 500
+
+            btn.style.top = `${randomNumber1}px`
+            btn.style.left = `${randomNumber2}px`
+
+        });
+
+        ybtn.addEventListener('click',function(){
+            window.alert('Finally mera din aagaya')
+        })
+
+
+        // btn.addEventListener('mouseout', function () {
+        //     //   console.log('Mouse out!');
+        // });
+    </script>
+
+
+</body>
+
+</html>

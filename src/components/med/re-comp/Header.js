@@ -33,7 +33,7 @@ function Header() {
           <Link to='/notes' className='my-3 sm:my-0'>NOTES</Link>
           <Link to='/confusingterms' className='my-3 sm:my-0'>CONFUSING TERMS</Link>
         </ul>
-        <p className='mr-5 ml-3 font-bold text-profcolor'>PROFILE</p>
+        <Link to='/userprofile' className='mr-5 ml-3 font-bold text-profcolor'>PROFILE</Link>
       </div>
       <div className='sm:hidden'><IconButton className='border flex items-center justify-center ease-in duration-300' ><MenuIcon style={{fontSize:'2.5rem'}} onClick={toggleShowList}></MenuIcon></IconButton></div>
     </div>

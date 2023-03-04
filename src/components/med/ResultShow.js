@@ -1,12 +1,13 @@
 import Cookies from 'js-cookie';
 import React, { useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 // import { objData } from './Quiz'
 import ROOT from '../Const';
 
 import { checkAnswer } from './functions';
 
 import ShowAns from './re-comp/ShowAns';
+import { SupraHeader } from './re-comp/Header'
 
 
 // import React from 'react'
@@ -22,6 +23,8 @@ import ShowAns from './re-comp/ShowAns';
 
 function ResultShow() {
 
+    const history = useNavigate()
+
     const [questions, setQuestions] = useState([])
     const [test, setTest] = useState({})
     const [rightscore, setrightScore] = useState(0)
@@ -31,6 +34,7 @@ function ResultShow() {
     const [overallresult, setoverallResult] = useState([])
     // show button if it is daily test
     const [showanswer, setshowAnswer] = useState(false)
+    const [ansText, setansText] = useState('See Answers')
     const [showoverallresultbtn, setshowoverallresultBtn] = useState(true)
     // const [newresult,setnewResult] = useState([])
     const [objData, setObj] = useState([])
@@ -47,10 +51,10 @@ function ResultShow() {
     // SAVE TEST DATA IN THE RESPECTIVE USERS DATABASE
     const saveTestToUser = async (testmode, testtitle, totalscore, totalwrong, unattempt, totaltimetaken, questions) => {
 
-        
+
         // const { testmode,testtitle,totalscore,totalwrong,unattempt,totaltimetaken,questions} = req.body
 
-        const res = await fetch(ROOT+'/addtestdata', {
+        const res = await fetch(ROOT + '/addtestdata', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -96,7 +100,7 @@ function ResultShow() {
     // SEND THE TEST DATA TO THE TEST DATABASE
     const saveUserToTest = async (id, username, totalscore) => {
         try {
-            const res = await fetch(ROOT+'/saveusertotest', {
+            const res = await fetch(ROOT + '/saveusertotest', {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -127,7 +131,7 @@ function ResultShow() {
         // console.log(objData.testname)
 
         try {
-            const res = await fetch(ROOT+'/showoverallresult', {
+            const res = await fetch(ROOT + '/showoverallresult', {
                 method: 'POST',
                 headers: {
                     // because there is cookies
@@ -137,9 +141,9 @@ function ResultShow() {
 
                 // bwcause cookies is there
                 credentials: 'include',
-                body: JSON.stringify({ 
-                    logintoken:logintoken,
-                    testmode: objData.testmode 
+                body: JSON.stringify({
+                    logintoken: logintoken,
+                    testmode: objData.testmode
                 })
             })
 
@@ -192,7 +196,7 @@ function ResultShow() {
                 test.username,
                 rightscore
             )
-            
+
             console.log('res from add test to user', savetesttouserstatus)
             console.log('res from add user to test', saveusertoteststatus)
         }
@@ -226,27 +230,46 @@ function ResultShow() {
 
 
     return (
-        <>
-            <h3>result</h3>
-            <p>user name : {test.username}</p>
-            <p>test mode : {test.testtitle}</p>
-            <p>total score: {rightscore}</p>
-            <p>wrong : {wrongscore}</p>
-            <p>Not attempted : {unattemptscore}</p>
-            <p>total time taken : {test.totaltimetaken}</p>
-            <br />
-            <br />
-            <button type="submit" onClick={() => setshowAnswer(true)}>see answers </button>
-            {showanswer && <p>answers</p>}
-            {showanswer && <ShowAns questions={questions} />}
-            {showoverallresultbtn && <button type="submit" onClick={showOverallResult}>see overall reesult </button>}
-            {showoverallresult ? <h3>Overall Result</h3> : <p style={{ color: 'red' }} >{notloggedtext}</p>}
-            {
-                overallresult.map((result, index) => {
-                    return <p>{index}. {result.username} : {result.totalscore}</p>
-                })
-            }
-        </>
+        <div className='w-screen min-h-screen   bg-testbg'>
+            <SupraHeader />
+            <div className='w-full sm:flex sm:flex-col sm:items-center  '>
+                <div className='sm:w-4/5 pl-3 sm:pl-0 lg:w-2/5'>
+                    <div className='grid place-items-center my-5'>
+                        <p className='w-fit bg-pcolor text-white p-1 my-1.5 rounded-md'>Result</p>
+                    </div>
+                    <p><span className='font-bold text-lg'>Name :</span> {test.username}</p>
+                    <p><span className='font-bold text-lg'>Test Name :</span> {test.testtitle}</p>
+                    <p><span className='font-bold text-lg'>Total Score:</span> {rightscore}</p>
+                    <p><span className='font-bold text-lg'>Wrong :</span> {wrongscore}</p>
+                    <p><span className='font-bold text-lg'>Not Attempted :</span> {unattemptscore}</p>
+                    <p><span className='font-bold text-lg'>Total Time Taken :</span> {test.totaltimetaken}</p>
+                </div>
+                <div className='sm:w-4/5 lg:w-2/5'>
+
+                    <div className='grid place-items-center my-5'>
+                        <button className='w-fit bg-pcolor text-white p-1 my-1.5 rounded-md' type="submit" onClick={() => {
+                            setshowAnswer(true)
+                            setansText('Answers')
+                        }}>{ansText}</button>
+                    </div>
+
+                    {showanswer && <ShowAns questions={questions} />}
+                    {showoverallresultbtn && <button type="submit" onClick={showOverallResult}>see overall reesult </button>}
+                    {showoverallresult ? <h3>Overall Result</h3> : <p style={{ color: 'red' }} >{notloggedtext}</p>}
+                    {
+                        overallresult.map((result, index) => {
+                            return <p>{index}. {result.username} : {result.totalscore}</p>
+                        })
+                    }
+
+                    <div className='my-5'>
+                        <button className='w-fit bg-contascolor text-white p-1 my-1.5 rounded-lg' type="submit" onClick={() => {
+                            history('/home')
+                        }}>Return to Home Page</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     )
 }
 
