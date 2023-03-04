@@ -12,6 +12,7 @@
 /build
 
 # package to avoid proxy
+/package.json
 
 # misc
 .DS_Store

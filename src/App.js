@@ -1,5 +1,5 @@
 import './App.css';
-import Header from "./components/Header";
+import Header from "./components/med/re-comp/Header";
 import Quiz from "./components/Quiz";
 import Error from "./components/Error";
 import Home from "./components/Home";
@@ -32,7 +32,7 @@ function App() {
     <>
       <BrowserRouter>
 
-      <Header />
+      {/* <Header /> */}
 
         <Routes>
         

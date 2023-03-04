@@ -3,6 +3,10 @@ import { Form, useNavigate } from 'react-router-dom'
 import parse from 'html-react-parser';
 import ROOT from './Const';
 
+
+// importing custom styled mui component
+// import { CustomButton } from './Home';
+
 function AddQuestions() {
     // const root = 'http://localhost:5000/public/'
     const root = ROOT
@@ -185,7 +189,11 @@ function AddQuestions() {
 
 
     return (
+
+
+        
         <div className='addquestion'>
+        {/* <CustomButton>a button</CustomButton> */}
             <form action="" method="post">
                 <h4>add question</h4>
                 <input type="text" placeholder="qn" name='qn'

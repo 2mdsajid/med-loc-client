@@ -6,14 +6,16 @@ import { Link, useNavigate } from 'react-router-dom'
 
 // import logo from '../images'
 
-// material ui import
-import {Button} from '@mui/material'
+
+// import {Img} from 'react-image' //to use responsive image
+
+// import Imgix from "react-imgix"
+
 
 function Home() {
 
   // navigate to a link || similar to href={}
   const history = useNavigate()
-
 
 
   const routenewHome = (e) => {
@@ -31,15 +33,14 @@ function Home() {
     Cookies.remove('usertype') //to remove the cookie on returning to this page
   }, []);
 
-
-  return (
-    <div className='home-main'>
-      <h2 className='home1-wlcm'>WELCOME TO <span style={{color:"#01C7F8"}}>MEDLOCUS</span></h2>
-      <img className='' src='/images/logo.png' alt="" />
-      <h3>CONTINUE AS</h3>
-      <Button variant="contained">this is a button</Button>
-      <button id='aspirant' type='submits' onClick={routenewHome} >Medical <span>Aspirant</span></button>
-      <button id='student' type='submits' onClick={routenewHome} >Medical <span>Student</span></button>
+  const [value, setValue] = useState(null )
+ return (
+    <div className='h-screen w-screen bg-pcolor text-white text-2xl sm:text-3xl flex flex-col items-center justify-center'>
+      <h1 className='font-bold mb-5'>WELCOME TO <span className='text-medloccolor'>MEDLOCUS</span></h1>
+      <img className='mb-5 w-48 sm:w-64 cursor-pointer hover:scale-[1.2] transition-all ease-linear duration-300 ' src="/images/logo.png" alt="" />
+      <p className='mb-5'>Continue As</p>
+      <button id='aspirant' className='mb-2 p-2 bg-btnbg text-black font-bold hover:bg-blue-400 hover:text-white rounded-md' onClick={routenewHome}>Medical <span className='text-contascolor hover:text-blue'>Aspirant</span></button>
+      <button id='student' className='p-2.5 bg-btnbg text-black font-bold hover:bg-blue-400 hover:text-white rounded-md'onClick={routenewHome}>Medical <span className='text-contascolor hover:text-blue'>Student</span></button>
     </div>
   )
 }
