@@ -4,6 +4,9 @@ import { userLoggedIn } from './functions'
 import Cookies from 'js-cookie';
 import ROOT from '../Const';
 
+import { SupraHeader } from './re-comp/Header'
+import UserLogin from './UserLogin';
+
 function UserProfile() {
 
     const history = useNavigate()
@@ -11,7 +14,17 @@ function UserProfile() {
     const [userinfo, setuserInfo] = useState({})
     const [usertests, setuserTests] = useState([])
     const [loggedin, setloggedIn] = useState(true)
+    const [notloggedtest, setnotloggedText] = useState('')
     // const [showlogout, setshowLogout] = useState(false)
+
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        const year = date.getFullYear();
+        const month = date.toLocaleString('default', { month: 'long' });
+        const day = date.getDate();
+
+        return `${month} ${day}, ${year}`;
+    }
 
 
     const doLogOut = async () => {
@@ -19,17 +32,17 @@ function UserProfile() {
         // console.log('logout')
         setloggedIn(false)
 
-        const res = await fetch(ROOT + '/logout', {
-            method: 'GET',
-            headers: {
-                // because there is cookies
-                Accept: 'application/json',
-                'Content-Type': 'application/json'
-            },
+        // const res = await fetch(ROOT + '/logout', {
+        //     method: 'GET',
+        //     headers: {
+        //         // because there is cookies
+        //         Accept: 'application/json',
+        //         'Content-Type': 'application/json'
+        //     },
 
-            // bwcause cookies is there
-            credentials: 'include'
-        })
+        //     // bwcause cookies is there
+        //     credentials: 'include'
+        // })
 
         Cookies.remove('logintoken')
 
@@ -37,7 +50,7 @@ function UserProfile() {
 
         // console.log(data)
         const user_type = Cookies.get("usertype")
-        history2('/home', { state: { id: user_type } })
+        // history2('/home', { state: { id: user_type } })
     }
 
 
@@ -87,7 +100,7 @@ function UserProfile() {
         // console.log('logintoken in profile', logintoken)
 
         try {
-            const res = await fetch(ROOT+'/userprofile', {
+            const res = await fetch(ROOT + '/userprofile', {
                 // mode: 'no-cors',
                 method: 'POST',
                 headers: {
@@ -95,7 +108,7 @@ function UserProfile() {
                 },
                 body: JSON.stringify({
                     logintoken: logintoken,
-                    
+
                 })
             })
 
@@ -105,11 +118,12 @@ function UserProfile() {
             setuserInfo(data)
             setuserTests(data.tests)
             console.log('data in profile after auth', data)
+            setloggedIn(true)
 
 
             if (data.status == 401) {
-                history('/login')
-                console.log('direct to login ')
+                // history('/login')
+                // console.log('direct to login ')
                 setloggedIn(false)
             }
 
@@ -120,56 +134,39 @@ function UserProfile() {
         }
     }
 
-    // const check = async () => {
-    //     const loggedin = await userLoggedIn()
-
-    //     if (loggedin) {
-    //         // console.log('logged in profile')
-    //         console.log(loggedin)
-    //     } else (
-    //         console.log(loggedin)
-    //         // console.log('not logged profile')
-    //     )
-    // }
-
 
 
     useEffect(() => {
         renderuserProfile()
-
-        // userLoggedIn().then(result => console.log(result.PromiseResult))
-
-
-        // check()
-
-        // if(userLoggedIn()){
-        //     console.log('logged in profile')
-        // }else(
-        //     console.log('not logged profile')
-        // )
-
-        // {userLoggedIn() ? console.log('logged in profile') : console.log('not logged in profile')}
-
     }, [loggedin])
 
-    return (<>
-        {loggedin ? <div>
-            <h4>user profile</h4>
-            <p>name : {userinfo.username}</p>
-            <p>emaail : {userinfo.email}</p>
-            <p>date joined : {userinfo.date}</p>
-            <h5>Tests attended</h5><hr />
-            {loggedin && <button className='link-head' onClick={doLogOut}>logout</button>}
-            {usertests.map((test, index) => {
-                return (<>
-                    <p>{index + 1} : {test.testmode}</p>
-                    <p>score : {test.totalscore}</p>
-                    <p>time taken : {test.totaltimetaken}</p>
-                    <p>date attended : {test.date}</p><br />
-                </>)
-            })}
-        </div> : <p>please log in to view your profile</p>}
-    </>
+    return (
+        <div className='bg-testbg min-h-screen w-screen flex flex-col items-center'>
+            <SupraHeader />
+            {loggedin ? <div className='w-full sm:min-h-full sm:w-4/5 lg:w-3/5 flex flex-col sm:flex-row '>
+                <div className='mb-10 sm:mb-0 sm:w-2/5 sm:h-full'>
+                    <h4 className='pl-3 mb-3 font-bold text-xl border-b-2 border-pcolor'>PROFILE</h4>
+                    <p><span className='pl-3 font-bold'>Name :</span> {userinfo.username}</p>
+                    <p><span className='pl-3 font-bold'>Email :</span> {userinfo.email}</p>
+                    <p><span className='pl-3 font-bold'>Date Joined :</span> {formatDate(userinfo.date)}</p>
+                    {loggedin && <button className='ml-3 link-head mt-5 bg-navbg p-1 text-pcolor rounded-md hover:bg-pcolor hover:text-white' onClick={doLogOut}>logout</button>}
+                </div>
+                <div className=' sm:w-3/5 sm:border-l-2 sm:border-r-2 border-pcolor min-h-full '>
+                    <h5 className='pl-2 mb-3 font-bold text-xl border-b-2 border-pcolor'>TESTS ATTENDED</h5>
+                    {usertests.map((test, index) => {
+                        return (<>
+                            <p className='pl-2'><span className='font-bold text-lg capitalize'>{index + 1}. &nbsp; {test.testtitle}</span></p>
+                            <p className='pl-2'><span className='font-bold'>Total Score :</span> {test.totalscore}</p>
+                            <p className='pl-2'><span className='font-bold'>Time Taken :</span> {test.totaltimetaken}</p>
+                            <p className='pl-2'><span className='font-bold'>Date :</span> {formatDate(test.date)}</p><br />
+                        </>)
+                    })}
+                </div>
+            </div> : <div className='flex flex-col justify-center'>
+                <p className='text-red-600 font-bold my-10'>please log in to view your profile</p>
+                    <UserLogin renderuserProfile={renderuserProfile} />
+            </div>}
+        </div>
     )
 }
 

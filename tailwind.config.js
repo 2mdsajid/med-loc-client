@@ -16,7 +16,8 @@ module.exports = {
         medloccolor:'#01C7F8',
         testbg:'#B6E8F8',
         rndmnamecolor:'#E5E5E5',
-        starttestcolor:'#7BDAF9'
+        starttestcolor:'#7BDAF9',
+        loginbg:'#A9EFF9'
       },
     },
   },
