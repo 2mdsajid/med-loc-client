@@ -275,6 +275,7 @@ function Quiz() {
         // history('/result')
 
     }
+    
 
     return (
         <>
