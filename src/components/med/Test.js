@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom'
 import ROOT from '../Const';
 import Header,{SupraHeader} from './re-comp/Header'
 
+import LogoAnimation from './re-comp/LogoAnimation';
+
 function TestButtonList({ tests, categoryFilter, onClick }) {
   const filteredTests = tests.filter(test => test.category === categoryFilter)
 
@@ -35,6 +37,7 @@ function Test() {
   const history = useNavigate()
 
   const [tests, setTests] = useState([])
+  const [showloadanimation,setshowloadAnimation] = useState(true)
 
   // TO GET CATEGORY WISE OBJECTS OF TEST
   function filterByCategory(objects, category) {
@@ -54,6 +57,7 @@ function Test() {
 
       const data = await res.json()
       setTests(data)
+      setshowloadAnimation(false)
 
       // console.log(data)
     } catch (error) {
@@ -75,43 +79,14 @@ function Test() {
   }, [])
 
 
-  return (
-    <div className='h-screen bg-testbg text-white'>
+  return (<>
+    {showloadanimation ? <><LogoAnimation /></> : <div className='h-screen bg-testbg text-white'>
     <SupraHeader />
       <TestButtonList tests={tests} categoryFilter='modeltest' onClick={CollectUserData} />
       <TestButtonList tests={tests} categoryFilter='dailytest' onClick={CollectUserData} />
       <TestButtonList tests={tests} categoryFilter='weeklytest' onClick={CollectUserData} />
       <TestButtonList tests={tests} categoryFilter='archive' onClick={CollectUserData} />
-
-    </div>
-    // <div className='bg-pcolor text-white'>
-    //   <h3>Model Tests</h3>
-    //   {
-    //     tests.filter(test => test.category === 'modeltest').map(test => {
-    //       return <button id={test.testname} type='submits' style={style} onClick={(e) => CollectUserData(e, test)}>{test.testtitle}</button>
-    //     })
-    //   }
-    //   <br />
-    //   <h3>Daily Tests</h3>
-    //   {
-    //     tests.filter(test => test.category === 'dailytest').map(test => {
-    //       return <button id={test.testname} type='submits' style={style} onClick={(e) => CollectUserData(e, test)}>{test.testtitle}</button>
-    //     })
-    //   }
-    //   <h3>Weekly Tests</h3>
-    //   {
-    //     tests.filter(test => test.category === 'weeklytest').map(test => {
-    //       return <button id={test.testname} type='submits' style={style} onClick={(e) => CollectUserData(e, test)}>{test.testtitle}</button>
-    //     })
-    //   }
-    //   <h3>Archives</h3>
-    //   {
-    //     tests.filter(test => test.category == 'archive').map(test => {
-    //       return <button id={test.testname} type='submits' style={style} onClick={(e) => CollectUserData(e, test)}>{test.testtitle}</button>
-    //     })
-    //   }
-    //   <br />
-    // </div>
+    </div>}</>
   )
 }
 

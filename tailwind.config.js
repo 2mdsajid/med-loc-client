@@ -17,7 +17,8 @@ module.exports = {
         testbg:'#B6E8F8',
         rndmnamecolor:'#E5E5E5',
         starttestcolor:'#7BDAF9',
-        loginbg:'#A9EFF9'
+        loginbg:'#A9EFF9',
+        notebg:'#D4FCFE'
       },
     },
   },
