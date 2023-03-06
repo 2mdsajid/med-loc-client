@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { QnAttempt } from '../quizes/Question'
+// import { QnAttempt } from '../quizes/Question'
 import TYPEOFTEST from './Testtype'
 
 import ROOT from './Const'
