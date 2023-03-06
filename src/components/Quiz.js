@@ -1,10 +1,6 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import Bio from '../quizes/Bio'
-import Phy from '../quizes/Phy'
-import Chem from '../quizes/Chem'
-import Question from '../quizes/Question'
 import { QnAttempt } from '../quizes/Question'
 import TYPEOFTEST from './Testtype'
 
@@ -275,7 +271,7 @@ function Quiz() {
         // history('/result')
 
     }
-    
+
 
     return (
         <>
