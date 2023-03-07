@@ -61,18 +61,17 @@ const directSingleNote = (note) =>{
   }, []);
 
 
+// {notes.map((note, index) => {
+//           {/* console.log(note.notecontent) */ }
+//           return (<>
+//             <button onClick={() => directSingleNote(note)}>{index} : {note.title}</button>
+//             {/* <div className='notecontent'><ParsedElement string={note.notecontent} root={note.rooturl} /></div> */}
+//           </>)
+//         })}
+
+
   return (
     <>
-      <h1>notes</h1><br />
-      <div className="note">
-        {notes.map((note, index) => {
-          {/* console.log(note.notecontent) */ }
-          return (<>
-            <button onClick={() => directSingleNote(note)}>{index} : {note.title}</button>
-            {/* <div className='notecontent'><ParsedElement string={note.notecontent} root={note.rooturl} /></div> */}
-          </>)
-        })}
-      </div>
     </>
   )
 

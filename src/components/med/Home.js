@@ -40,8 +40,8 @@ function Home() {
 
   return (
 
-    <div className="h-screen w-screen bg-pcolor">
-      <SupraHeader user_type={user_type} />
+    <div className="min-h-screen w-screen bg-pcolor">
+      {/* <SupraHeader user_type={user_type} /> */}
       <Header />
       <AboutUs />
       <Footer />

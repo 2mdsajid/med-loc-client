@@ -14,6 +14,8 @@ import UserLogin from './components/med/UserLogin';
 import UserSignup from './components/med/UserSignup';
 import UserProfile from './components/med/UserProfile';
 
+import { SupraHeader } from './components/med/re-comp/Header';
+
 import LogoAnimation from './components/med/re-comp/LogoAnimation';
 
 // HOME PAGE NAVIGATE
@@ -35,6 +37,7 @@ function App() {
       <BrowserRouter>
 
       {/* <Header /> */}
+      <SupraHeader />
 
         <Routes>
         

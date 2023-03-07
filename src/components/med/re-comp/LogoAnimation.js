@@ -2,11 +2,11 @@ import React from 'react'
 import { SupraHeader } from './Header'
 
 function LogoAnimation() {
-    return (<div className='w-screen h-screen bg-testbg'>
-        <SupraHeader />
-        <div className='bg-testbg flex items-center justify-center w-full h-full'>
+    return (<div className='w-screen h-screen bg-testbg grid place-content-center'>
+        {/* <SupraHeader /> */}
+
             <img className='animate-bounce w-44' src="/images/logo.png" alt="" />
-        </div>
+
     </div>)
 }
 

@@ -75,7 +75,7 @@ function Test() {
 
 
   useEffect(() => {
-    getAllTest()
+    // getAllTest()
   }, [])
 
 
