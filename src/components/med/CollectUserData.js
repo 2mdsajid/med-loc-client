@@ -7,6 +7,8 @@ import Timer from './re-comp/Timer';
 
 import ROOT from '../Const';
 
+import { loadlocalStorage } from './functions';
+
 import names from 'random-indian-name'
 import Cookies from 'js-cookie';
 
@@ -102,6 +104,11 @@ const CollectUserData = () => {
     // TO GET THE USERNAME IF USER LOGGED IN
     const getUserName = async () => {
         const logintoken = Cookies.get("logintoken")
+
+        if (logintoken){
+            const userinfo = loadlocalStorage('userinfo')
+        }
+
         try {
             const res = await fetch(ROOT + '/getusername', {
                 // mode: 'no-cors',

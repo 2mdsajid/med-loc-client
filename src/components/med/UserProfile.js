@@ -60,6 +60,12 @@ function UserProfile() {
                 const data = await res.json()
                 setuserInfo(data.userdata)
                 setuserTests(data.userdata.tests)
+
+                storelocalStorage('userinfo',{
+                    username:userinfo.username,
+                    email:userinfo.email
+                })
+
                 setloggedIn(true)
                 setshowlogoAnimation(false) //loading animation
 
