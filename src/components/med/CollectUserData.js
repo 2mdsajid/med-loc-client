@@ -45,12 +45,25 @@ const CollectUserData = () => {
     // TO GET THE TIME VALUE OF THE TEST  
     function ShowTime(props) {
 
+
+        // const desiredTime = new Date();
+        //     desiredTime.setHours(Number(props.time.value))
+        //     // desiredTime.setHours(18)
+        //     desiredTime.setMinutes(51)
+        //     desiredTime.setSeconds(0)
+        //     // console.log('desired hr in ', desiredTime.getHours())
+        //     const desiredTimeInSeconds = Math.floor(desiredTime.getTime() / 1000);
+        //     const currentTimeInSeconds = Math.floor(Date.now() / 1000);
+
+        //     const timeForTheTest = (desiredTimeInSeconds - currentTimeInSeconds) * 1000;
+
+
         const desiredTime = new Date();
         // const currentDate = desiredTime.getDate()
-        const currentDate = parseInt(props.time.value)
-        desiredTime.setDate(currentDate); // Set the date to 1 day next
-        desiredTime.setHours(props.time.value); // Set the hour to 4 PM
-        desiredTime.setMinutes(0); // Set the minutes to 0
+        const desiredHour = parseInt(props.time.value)
+        //desiredTime.setDate(desiredHour); // Set the date to 1 day next
+        desiredTime.setHours(desiredHour); // Set the hour to 4 PM
+        desiredTime.setMinutes(16); // Set the minutes to 0
         desiredTime.setSeconds(0); // Set the seconds to 0
 
         const desiredTimeInSeconds = Math.floor(desiredTime.getTime() / 1000);
@@ -70,7 +83,10 @@ const CollectUserData = () => {
             return <button className='bg-starttestcolor border p-1 rounded-md border-pcolor text-pcolor font-semibold hover:bg-cyan-900 hover:text-white ' onClick={startQuiz}>start test</button>
         } else {
             // uncomment --------------------------------------
-            return <>{showstarttestButton ? <button className='bg-starttestcolor border p-1 rounded-md border-pcolor text-pcolor font-semibold hover:bg-cyan-900 hover:text-white ' onClick={startQuiz}>start test</button> : <p><span className='text-lg  font-bold'>Test starts in - </span><Timer expiryTimestamp={Date.now() + timeForTheTest} onExpire={handleCountdownComplete}/></p>}</>;
+            return <>{showstarttestButton ?
+                <button className='bg-starttestcolor border p-1 rounded-md border-pcolor text-pcolor font-semibold hover:bg-cyan-900 hover:text-white ' onClick={startQuiz}>start test</button>
+                : <p><span className='text-lg  font-bold'>Test starts in - </span>{ <Timer expiryTimestamp={Date.now() + timeForTheTest} onExpire={handleCountdownComplete} />}
+                </p>}</>;
             // return <button onClick={startQuiz}>start test</button>
         }
     }

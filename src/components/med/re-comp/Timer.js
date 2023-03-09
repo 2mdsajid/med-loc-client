@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useTimer } from 'react-timer-hook';
 
+// , onTick = () => { }
 
-function Timer({ expiryTimestamp, onExpire, onTick = () => { } }) {
+function Timer({ expiryTimestamp, onExpire }) {
 
   function convertToTwoDigit(num) {
     return num < 10 ? `0${num}` : `${num}`;
@@ -18,7 +19,7 @@ function Timer({ expiryTimestamp, onExpire, onTick = () => { } }) {
 
   useEffect(() => {
     setSec(seconds);
-    onTick(minutes)
+    // onTick(minutes)
   }, [seconds]); //this will run only if seconds change
 
 

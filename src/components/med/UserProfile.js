@@ -9,7 +9,7 @@ import UserLogin from './UserLogin';
 
 import { formatDate } from './functions';
 
-import { loadlocalStorage } from './functions';
+import { loadlocalStorage, storelocalStorage } from './functions';
 
 import LogoAnimation from './re-comp/LogoAnimation';
 
