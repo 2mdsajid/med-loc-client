@@ -22,10 +22,6 @@ function AddQuestions() {
         qn: '', a: '', b: '', c: '', d: '', ans: '', category: ''
     })
 
-    // const [noteimg,setnoteImg]= useState([])
-    // const [title,setTitle] = useState('')
-    // const [content,setContent] = useState([])
-
     let name, value
     const handleInput = (e) => {
         name = e.target.name;
@@ -34,14 +30,26 @@ function AddQuestions() {
         setQuestion({ ...question, [name]: value })
     }
 
+    const renderInput = (name, onchange, value, placeholder) => {
+        return (
+            <input
+                type="text"
+                name={name}
+                onChange={onchange}
+                value={value}
+                placeholder={placeholder}
+            />
+        )
+    }
+
     const fileChange = (event) => {
         setImg(event.currentTarget.files[0]) //files are always in ARRAY format
     }
 
-    const handleNoteImage = (e)=>{
+    const handleNoteImage = (e) => {
         const image = e.currentTarget.files
         setnoteImg([...image])
-        console.log('each img',image)
+        console.log('each img', image)
     }
 
     // const sendNotePhotos = (event) =>{
@@ -65,16 +73,16 @@ function AddQuestions() {
 
             let formData = new FormData()
             formData.append('avatar', image)
-            formData.append('qn',qn)
-            formData.append('a',a)
-            formData.append('b',b)
-            formData.append('c',c)
-            formData.append('d',d)
-            formData.append('ans',ans)
+            formData.append('qn', qn)
+            formData.append('a', a)
+            formData.append('b', b)
+            formData.append('c', c)
+            formData.append('d', d)
+            formData.append('ans', ans)
             // formData.append('imgname', imgname)
 
             // console.log(formData)
-            const res = await fetch(ROOT+'/saveimage', {
+            const res = await fetch(ROOT + '/saveimage', {
                 method: "POST",
                 body: formData
             })
@@ -90,7 +98,7 @@ function AddQuestions() {
         } else {
 
             console.log('non mat category')
-            const res = await fetch(ROOT+'/addquestion', {
+            const res = await fetch(ROOT + '/addquestion', {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -129,7 +137,7 @@ function AddQuestions() {
         formData.append('imgname', imgname)
 
         console.log(formData)
-        const res = await fetch(ROOT+'/saveimage', {
+        const res = await fetch(ROOT + '/saveimage', {
             method: "POST",
             body: formData
         })
@@ -146,57 +154,57 @@ function AddQuestions() {
 
     /* NOTE SECTION */
 
-    
-  const [noteimg, setnoteImg] = useState([])
-  const [notetitle, setnoteTitle] = useState('')
-  const [noteimgname, setnoteimgName] = useState('')
-  const [notecontent, setnoteContent] = useState('')
 
-  const handlenoteImage = (e) => {
-    const image = e.currentTarget.files
-    setnoteImg([...image])
+    const [noteimg, setnoteImg] = useState([])
+    const [notetitle, setnoteTitle] = useState('')
+    const [noteimgname, setnoteimgName] = useState('')
+    const [notecontent, setnoteContent] = useState('')
 
-  }
+    const handlenoteImage = (e) => {
+        const image = e.currentTarget.files
+        setnoteImg([...image])
 
-  const sendNotePhotos = async (event) => {
-    event.preventDefault()
-
-    let formData = new FormData()
-
-    for (let i = 0; i < noteimg.length; i++) {
-      formData.append(`note`, noteimg[i])
     }
 
-    formData.append('notetitle', notetitle)
-    formData.append('noteimgname', noteimgname)
-    formData.append('notecontent', notecontent)
+    const sendNotePhotos = async (event) => {
+        event.preventDefault()
 
-    const res = await fetch(ROOT+'/savenote', {
-      method: "POST",
-      body: formData
-    })
+        let formData = new FormData()
 
-    const data = await res.json()
+        for (let i = 0; i < noteimg.length; i++) {
+            formData.append(`note`, noteimg[i])
+        }
 
-    console.log('res', data.content)
-    if (data.status === 422 || !data) {
-      console.log('invalid')
-    } else {
-      console.log('success image sent to server')
+        formData.append('notetitle', notetitle)
+        formData.append('noteimgname', noteimgname)
+        formData.append('notecontent', notecontent)
+
+        const res = await fetch(ROOT + '/savenote', {
+            method: "POST",
+            body: formData
+        })
+
+        const data = await res.json()
+
+        console.log('res', data.content)
+        if (data.status === 422 || !data) {
+            console.log('invalid')
+        } else {
+            console.log('success image sent to server')
+        }
     }
-  }
 
 
 
     return (
 
 
-        
+
         <div className='addquestion'>
-        {/* <CustomButton>a button</CustomButton> */}
+            {/* <CustomButton>a button</CustomButton> */}
             <form action="" method="post">
                 <h4>add question</h4>
-                <input type="text" placeholder="qn" name='qn'
+                {/* <input type="text" placeholder="qn" name='qn'
                     value={question.name}
                     onChange={handleInput}
                 />
@@ -219,7 +227,16 @@ function AddQuestions() {
                 <input type="text" placeholder="ans" name='ans'
                     value={question.name}
                     onChange={handleInput}
-                />
+                /> */}
+
+                {renderInput("qn", handleInput, question.qn, "qn")}
+                {renderInput("a", handleInput, question.a, "a")}
+                {renderInput("b", handleInput, question.b, "b")}
+                {renderInput("c", handleInput, question.c, "c")}
+                {renderInput("d", handleInput, question.d, "d")}
+                {renderInput("ans", handleInput, question.ans, "ans")}
+
+
                 <div>
                     <input type="radio" id="huey" name="category" value="p" onChange={handleInput} />
                     <label for="huey">Physics</label>
@@ -253,28 +270,28 @@ function AddQuestions() {
 
                 <button onClick={sendQuestions} type="submit">submit</button>
             </form>
-            <br /><br/>
-            <h3>add notes</h3><br/>
-           {/* { parse(htmlString) } */}
-
-           
+            <br /><br />
+            <h3>add notes</h3><br />
+            {/* { parse(htmlString) } */}
 
 
-           {/* NOTE FORM */}
-           <form action="">
-        <input type="text" name="notetitle" placeholder='title of note' id=""
-          onChange={(e) => setnoteTitle(e.currentTarget.value)}
-        /><br />
-        <input type="text" name="noteimgname" placeholder='name of img' id=""
-          onChange={(e) => setnoteimgName(e.currentTarget.value)}
-        /><br />
-        <input type="file" multiple name='noteimg' placeholder='content'
-          onChange={handlenoteImage}
-        /><br />
-        <textarea name="notecontent" id="" cols="30" rows="10"
-          onChange={(e) => setnoteContent(e.currentTarget.value)}></textarea>
-        <br /><button type='submit' onClick={sendNotePhotos}>send photos</button>
-      </form>
+
+
+            {/* NOTE FORM */}
+            <form action="">
+                <input type="text" name="notetitle" placeholder='title of note' id=""
+                    onChange={(e) => setnoteTitle(e.currentTarget.value)}
+                /><br />
+                <input type="text" name="noteimgname" placeholder='name of img' id=""
+                    onChange={(e) => setnoteimgName(e.currentTarget.value)}
+                /><br />
+                <input type="file" multiple name='noteimg' placeholder='content'
+                    onChange={handlenoteImage}
+                /><br />
+                <textarea name="notecontent" id="" cols="30" rows="10"
+                    onChange={(e) => setnoteContent(e.currentTarget.value)}></textarea>
+                <br /><button type='submit' onClick={sendNotePhotos}>send photos</button>
+            </form>
         </div>
     )
 }

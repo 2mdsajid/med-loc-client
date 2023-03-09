@@ -13,7 +13,8 @@ import ResultShow from './components/med/ResultShow';
 import UserLogin from './components/med/UserLogin';
 import UserSignup from './components/med/UserSignup';
 import UserProfile from './components/med/UserProfile';
-import AdminPanel from './components/med/AdminPanel'
+import AdminSite from './components/med/AdminSite';
+// import MedlocusAdminPanel from './components/med/MedlocusAdminPanel'
 
 import ShowOverallResult from './components/med/ShowOverallResult';
 
@@ -55,7 +56,8 @@ function App() {
           <Route path="/test/result/:testId" element={<ShowOverallResult />} />
           <Route path="/addquestions" element={<AddQuestions />} />
           <Route path="/logo" element={<LogoAnimation />} />
-          <Route path="/adminpanel" element={<AdminPanel />} />
+          <Route path="/adminsite" element={<AdminSite />} />
+          {/* <Route path="/medlocusadminpanel" element={<MedlocusAdminPanel />} /> */}
           {/* TO PUT CUSTOM URL */}
           <Route path="/note/:noteId" element={<SingleNote />} />
           <Route path="/login" element={<UserLogin />} />
