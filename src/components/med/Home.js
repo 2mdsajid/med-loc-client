@@ -41,15 +41,25 @@ function Home() {
 
   //     
   //     
-  
+  //   <div className="min-h-screen w-screen bg-pcolor border flex flex-col justify-between">
+  //   <SupraHeader user_type={user_type} />
+  {/* <Header />
+<AboutUs />
+<Footer /> */}
+  // </div>
+
   return (
-    
-    <div className="h-screen w-screen bg-pcolor">
-      <SupraHeader user_type={user_type} />
-    <Header />
-    <AboutUs />
-    <Footer />
+
+    <div className='bg-pcolor min-h-screen w-screen'>
+      <SupraHeader />
+      <div className='h-screen flex flex-col justify-between items-center'>
+        <Header />
+        <AboutUs />
+        <Footer />
+      </div>
     </div>
+
+
   )
 }
 

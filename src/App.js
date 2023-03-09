@@ -15,6 +15,9 @@ import UserSignup from './components/med/UserSignup';
 import UserProfile from './components/med/UserProfile';
 import AdminSite from './components/med/AdminSite';
 // import MedlocusAdminPanel from './components/med/MedlocusAdminPanel'
+import AboutMedlocus from './components/med/AboutMedlocus';
+import StudentsFeedback from './components/med/StudentsFeedback';
+import ContributeToMedlocus from './components/med/ContributeToMedlocus';
 
 import ShowOverallResult from './components/med/ShowOverallResult';
 
@@ -57,6 +60,9 @@ function App() {
           <Route path="/addquestions" element={<AddQuestions />} />
           <Route path="/logo" element={<LogoAnimation />} />
           <Route path="/adminsite" element={<AdminSite />} />
+          <Route path="/aboutmedlocus" element={<AboutMedlocus />} />
+          <Route path="/studentsfeedback" element={<StudentsFeedback />} />
+          <Route path="/contribute" element={<ContributeToMedlocus />} />
           {/* <Route path="/medlocusadminpanel" element={<MedlocusAdminPanel />} /> */}
           {/* TO PUT CUSTOM URL */}
           <Route path="/note/:noteId" element={<SingleNote />} />

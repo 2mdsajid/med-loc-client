@@ -8,7 +8,10 @@ const SupraHeader = (props) => {
   return (
     <div className="bg-pcolor h-14 w-screen flex items-center justify-between">
       <h1 className='font-bold ml-3 text-xl text-txt'><Link to='/home'> MEDLOCUS </Link></h1>
-      <h1 className='font-bold mr-3 text-xl text-white'>Student</h1>
+      <div>
+        <p>Student</p>
+        <p>Aspirant</p>
+      </div>
     </div>
   )
 }
@@ -25,7 +28,7 @@ function Header() {
   }
 
   return (
-    <div className='bg-navbg text-white flex sticky w-screen h-14  top-0 z-10 transition-all ease-linear duration-900'>
+    <div className='bg-navbg text-white flex sticky w-screen h-14 z-10 transition-all ease-linear duration-900'>
       <div className='h-full w-full flex justify-between items-center'>
         <ul className={showlist+'  px-3 font-bold text-black bg-navbg absolute top-14 w-full flex flex-col sm:flex-row sm:my-0 sm:px-0 sm:static sm:w-1/2 sm:ml-3 sm:flex sm:justify-between md:w-2/5 lg:w-1/3 xl:w-1/4 '}>
           <Link to='/home' className='my-3 sm:my-0'>HOME</Link>

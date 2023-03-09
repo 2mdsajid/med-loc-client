@@ -46,11 +46,11 @@ const CollectUserData = () => {
     function ShowTime(props) {
 
         const desiredTime = new Date();
-        const currentDate = desiredTime.getDate()
-        // +parseInt(props.time.repeatafter)
+        // const currentDate = desiredTime.getDate()
+        const currentDate = parseInt(props.time.value)
         desiredTime.setDate(currentDate); // Set the date to 1 day next
         desiredTime.setHours(props.time.value); // Set the hour to 4 PM
-        desiredTime.setMinutes(56); // Set the minutes to 0
+        desiredTime.setMinutes(0); // Set the minutes to 0
         desiredTime.setSeconds(0); // Set the seconds to 0
 
         const desiredTimeInSeconds = Math.floor(desiredTime.getTime() / 1000);
@@ -70,7 +70,7 @@ const CollectUserData = () => {
             return <button className='bg-starttestcolor border p-1 rounded-md border-pcolor text-pcolor font-semibold hover:bg-cyan-900 hover:text-white ' onClick={startQuiz}>start test</button>
         } else {
             // uncomment --------------------------------------
-            return <>{showstarttestButton ? <button className='bg-starttestcolor border p-1 rounded-md border-pcolor text-pcolor font-semibold hover:bg-cyan-900 hover:text-white ' onClick={startQuiz}>start test</button> : <p>Test starts in: <Timer expiryTimestamp={Date.now() + timeForTheTest} onExpire={handleCountdownComplete} /></p>}</>;
+            return <>{showstarttestButton ? <button className='bg-starttestcolor border p-1 rounded-md border-pcolor text-pcolor font-semibold hover:bg-cyan-900 hover:text-white ' onClick={startQuiz}>start test</button> : <p><span className='text-lg  font-bold'>Test starts in - </span><Timer expiryTimestamp={Date.now() + timeForTheTest} onExpire={handleCountdownComplete}/></p>}</>;
             // return <button onClick={startQuiz}>start test</button>
         }
     }
@@ -129,14 +129,14 @@ const CollectUserData = () => {
     return (<div className='bg-testbg h-screen w-screen flex flex-col'>
         <SupraHeader />
         <div className='w-full h-full border sm:grid sm:place-items-center'>
-            <div id='test' className='pl-3 pt-5 sm:border sm:bg-cyan-400 drop-shadow-xl rounded-lg border-black sm:w-1/2 md:w-2/5 xl:w-2/5'>
+            <div id='test' className='pl-3 pt-5  sm:bg-notebg drop-shadow-xl rounded-lg border-black sm:w-1/2 md:w-2/5 xl:w-2/5'>
                 <h3 className='border border-pcolor text-3xl inline-block p-2.5 my-5 bg-pcolor text-white capitalize rounded-xl'>test type : {typeoftest.testname}</h3>
                 {userloggedin && <p className='text-xl'><span className='font-bold'>username :</span> {username}</p>}
                 {typeoftest.physics && <p className='text-xl'><span className='font-bold'>Physics :</span> {typeoftest.physics} questions</p>}
                 {typeoftest.chemistry && <p className='text-xl'><span className='font-bold'>Chemistry :</span> {typeoftest.chemistry} questions</p>}
                 {typeoftest.biology && <p className='text-xl'><span className='font-bold'>Biology :</span> {typeoftest.biology} questions</p>}
                 {typeoftest.mat && <p className='text-xl'><span className='font-bold'>MAT :</span> {typeoftest.mat} questions</p>}
-                {typeoftest.time.value && <p className='text-xl'><span className='font-bold'>Time :</span> {typeoftest.time.value} seconds</p>}
+                {typeoftest.time.duration && <p className='text-xl'><span className='font-bold'>Duration :</span> {typeoftest.time.value} Minutes</p>}
 
 
                 {/* if user logged no input || username from userdatabase */}

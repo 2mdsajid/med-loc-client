@@ -291,7 +291,7 @@ function AdminSite() {
                         {renderInput("mat", handletestInput, test.mat, "mat")}
                         <p className='font-bold text-lg'>Time</p>
                         {renderInput("type", handletestInput, test.type, "type - timed/free")}
-                        {renderInput("value", handletestInput, test.value, "value - in hour")}
+                        {renderInput("value", handletestInput, test.value, "value - time (put 1 for free test)")}
                         {renderInput("duration", handletestInput, test.duration, "duration - in minutes")}
                         {renderInput("repeatafter", handletestInput, test.repeatafter, "repeatafter - put '1'")}
                         {renderInput("category", handletestInput, test.category, "category (modeltest / chapterwise) ")}

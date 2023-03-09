@@ -30,7 +30,13 @@ function Home() {
   }
 
   useEffect(() => {
-    Cookies.remove('usertype') //to remove the cookie on returning to this page
+
+    const user_type = Cookies.get("usertype")
+    if(user_type){
+      history('/home')
+    }
+
+    //Cookies.remove('usertype') //to remove the cookie on returning to this page
   }, []);
 
   const [value, setValue] = useState(null )

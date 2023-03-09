@@ -54,7 +54,7 @@ function StartQuiz() {
         // console.log('totaltime in show cd before if-else', totaltime)
 
         if (timearray.type === 'free') {
-            const time = Number(timearray.value)
+            const time = (Number(timearray.duration )*1000)
             // console.log('timearray', time)
             settotalTime(time)
             // console.log('totaltime in showCD free', totaltime)
@@ -264,8 +264,8 @@ function StartQuiz() {
                     <div className='w-full mb-5'>
                         <div className='h-full w-full bg-green-400 p-1 border border-pcolor rounded-lg'>
                             <h1 className='font-bold text-xl'>Details of the Test :</h1>
-                            <p><span className='text-lg font-semibold'>Name :</span>&nbsp; {test.testname} </p>
-                            <p><span className='text-lg font-semibold'>Total Time :</span> &nbsp; {totaltime} minutes</p>
+                            <p><span className='text-lg font-semibold'>Name :</span>&nbsp; {test.testtitle} </p>
+                            <p><span className='text-lg font-semibold'>Duration :</span> &nbsp; {totaltime/1000} minutes</p>
                         </div>
                     </div>
                     <form onSubmit={checkAnswers} action="" method="POST">

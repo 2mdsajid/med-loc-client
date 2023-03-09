@@ -23,9 +23,9 @@ function Timer({ expiryTimestamp, onExpire, onTick = () => { } }) {
 
 
   return (
-    <div className='flex'>
-      <p><span className='font-semibold'>Time Left =</span> {`${hours}H : ${minutes}M : ${convertToTwoDigit(seconds)}S`}</p>
-    </div>
+  
+      <>{`${hours}H : ${minutes}M : ${convertToTwoDigit(seconds)}S`}</>
+    
 
   )
 }

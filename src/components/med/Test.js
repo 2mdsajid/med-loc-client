@@ -18,7 +18,7 @@ function TestButtonList({ tests, categoryFilter, onClick }) {
       <h3 className='text-2xl text-pcolor capitalize ml-3 my-5 font-medium underline '>{categoryFilter}</h3>
       <div className='ml-3'>
       {filteredTests.map(test => (
-        <button className='border m-1 p-2 bg-btnbg text-pcolor border-black drop-shadow-lg hover:bg-blue-500 font-medium hover:text-white rounded-xl'
+        <button className='m-1 p-2 bg-notebg text-pcolor drop-shadow-md hover:bg-pcolor font-medium hover:text-white rounded-xl'
           key={test.testname}
           id={test.testname}
           type='submit'
