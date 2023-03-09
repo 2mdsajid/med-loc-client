@@ -3,6 +3,8 @@ import React, { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import ROOT from '../Const';
 
+import { SupraHeader } from './re-comp/Header';
+
 function UserSignup() {
 
   const history = useNavigate()
@@ -11,6 +13,9 @@ function UserSignup() {
   const [user, setUser] = useState({
     username: '', email: '', password: ''
   })
+
+  const [failedmessage,setfailedMessage] = useState('')
+  const [successmessage,setsuccessMessage] = useState('')
 
   //   STORING THE INPUT VALUES IN USER JAOS
   let name, value
@@ -38,11 +43,12 @@ function UserSignup() {
     const data = await res.json()
 
 
-    if (data.status === 422 || !data) {
-      console.log('invalid')
+    if (data.status === 400 ||  !data) {
+      setfailedMessage(data.message)
+      // console.log('invalid')
     } else {
-      console.log('success')
-
+      // console.log('success')
+      setsuccessMessage(data.message)
       Cookies.set('logintoken', data.usertoken)
 
       history('/userprofile')
@@ -52,25 +58,30 @@ function UserSignup() {
   }
 
   return (
-    <div className='bg-pcolor  w-screen h-screen grid place-content-center'>
-      <div className='w-fit h-fit p-5 rounded-md bg-blue-200 flex flex-col justify-center items-center border border-pcolor'>
-        <h3 className='font-bold my-3 text-xl'>SIGNUP</h3>
-          <form method='POST' className="signup-form w-full px-1.5 py-1 flex flex-col justify-center items-center" id='signup-form'>
-            <input className='w-full my-3 px-2 py-1 rounded-md' type="text" placeholder="full name" name='username'
-              value={user.username}
-              onChange={handleInput}
-            />
-            <input className='w-full my-3 px-2 py-1 rounded-md' type="text" placeholder="email" name='email'
-              value={user.email}
-              onChange={handleInput}
-            />
-            <input className='w-full my-3 px-2 py-1 rounded-md' type="password" placeholder="password" name='password'
-              value={user.password}
-              onChange={handleInput}
-            />
-            <input className='w-full my-4 py-1 border border-pcolor bg-pcolor text-white font-bold rounded-lg hover:bg-blue-500 hover:text-white cursor-pointer' id='sign-up' type="submit" value="Sign Up" onClick={userSignup} />
-          </form>
-          <p className='text-sm font-semibold'>Already a user? <span><Link className=' text-blue-500 cursor-pointer' to="/login">LOGIN HERE</Link></span></p>
+    <div className='bg-testbg w-screen min-h-screen'>
+      <SupraHeader />
+      <div className='w-80 h-[90vh] mx-auto px-3 flex items-center justify-center '>
+        <form method='POST' className="bg-notebg p-3 w-full  flex flex-col items-center rounded-md drop-shadow-sm" id='signup-form'>
+          <h3 className='font-bold my-5 text-xl'>SIGNUP</h3>
+          <input className='w-full my-3 px-2 py-1 rounded-md drop-shadow-md outline-none' type="text" placeholder="full name" name='username'
+            value={user.username}
+            onChange={handleInput}
+          />
+          <input className='w-full my-3 px-2 py-1 rounded-md drop-shadow-md outline-none' type="text" placeholder="email" name='email'
+            value={user.email}
+            onChange={handleInput}
+          />
+          <input className='w-full my-3 px-2 py-1 rounded-md drop-shadow-md outline-none' type="password" placeholder="password" name='password'
+            value={user.password}
+            onChange={handleInput}
+          />
+          <input className='w-1/2 my-4 py-1 border border-pcolor bg-pcolor text-white font-bold rounded-lg hover:bg-blue-500 hover:text-white cursor-pointer' id='sign-up' type="submit" value="Sign Up" onClick={userSignup} />
+          <p className='text-md my-5 mb-8 font-semibold'>Already a user? <span><Link className=' text-blue-500 cursor-pointer' to="/userprofile">LOGIN HERE</Link></span></p>
+
+          {failedmessage && <p className='my-3 text-md font-semibold text-red-500 '>{failedmessage}</p>}
+    {successmessage && <p className='my-3 text-md font-semibold text-green-500 '>{successmessage}</p>}
+
+        </form>
       </div>
     </div>
   )

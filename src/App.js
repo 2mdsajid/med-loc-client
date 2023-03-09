@@ -13,6 +13,9 @@ import ResultShow from './components/med/ResultShow';
 import UserLogin from './components/med/UserLogin';
 import UserSignup from './components/med/UserSignup';
 import UserProfile from './components/med/UserProfile';
+import AdminPanel from './components/med/AdminPanel'
+
+import ShowOverallResult from './components/med/ShowOverallResult';
 
 import { SupraHeader } from './components/med/re-comp/Header';
 
@@ -37,7 +40,7 @@ function App() {
       <BrowserRouter>
 
       {/* <Header /> */}
-      <SupraHeader />
+      {/* <SupraHeader /> */}
 
         <Routes>
         
@@ -49,8 +52,10 @@ function App() {
           <Route path="/notes" element={<Notes />} />
           <Route path="/confusingterms" element={<ConfusingTerms />} />
           <Route path="/test" element={<Test />} />
+          <Route path="/test/result/:testId" element={<ShowOverallResult />} />
           <Route path="/addquestions" element={<AddQuestions />} />
           <Route path="/logo" element={<LogoAnimation />} />
+          <Route path="/adminpanel" element={<AdminPanel />} />
           {/* TO PUT CUSTOM URL */}
           <Route path="/note/:noteId" element={<SingleNote />} />
           <Route path="/login" element={<UserLogin />} />

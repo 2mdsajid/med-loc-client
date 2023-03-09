@@ -40,6 +40,15 @@ const deletelocalStorage = async (key) => {
   }
 }
 
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  const year = date.getFullYear();
+  const month = date.toLocaleString('default', { month: 'long' });
+  const day = date.getDate();
+
+  return `${month} ${day}, ${year}`;
+}
+
 
 const userLoggedIn = async () => {
   // const res = await fetch('/checkloggedin', {
@@ -56,6 +65,9 @@ const userLoggedIn = async () => {
 
   // const data = await res.json()
 
+
+  
+
   const user_logged = Cookies.get("logintoken");
   console.log(user_logged)
 
@@ -69,4 +81,4 @@ const userLoggedIn = async () => {
   }
 }
 
-export { storelocalStorage, loadlocalStorage, updatelocalStorage, deletelocalStorage, userLoggedIn }
+export { formatDate ,storelocalStorage, loadlocalStorage, updatelocalStorage, deletelocalStorage, userLoggedIn }

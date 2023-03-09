@@ -73,9 +73,14 @@ function Test() {
     history(`/test/${selectedtest.testname}`, { state: { typeoftest: selectedtest } })
   }
 
+  const showResult = (e, selectedtest) => {
+    e.preventDefault()
+    history(`/test/result/${selectedtest.testname}`, { state: { typeoftest: selectedtest } })
+  }
+
 
   useEffect(() => {
-    // getAllTest()
+    getAllTest()
   }, [])
 
 
@@ -85,7 +90,7 @@ function Test() {
       <TestButtonList tests={tests} categoryFilter='modeltest' onClick={CollectUserData} />
       <TestButtonList tests={tests} categoryFilter='dailytest' onClick={CollectUserData} />
       <TestButtonList tests={tests} categoryFilter='weeklytest' onClick={CollectUserData} />
-      <TestButtonList tests={tests} categoryFilter='archive' onClick={CollectUserData} />
+      <TestButtonList tests={tests} categoryFilter='archive' onClick={showResult} />
     </div>}</>
   )
 }

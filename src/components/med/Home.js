@@ -38,13 +38,17 @@ function Home() {
     // setIsTrue(!isTrue);
   }, []);
 
-  return (
 
-    <div className="min-h-screen w-screen bg-pcolor">
-      {/* <SupraHeader user_type={user_type} /> */}
-      <Header />
-      <AboutUs />
-      <Footer />
+  //     
+  //     
+  
+  return (
+    
+    <div className="h-screen w-screen bg-pcolor">
+      <SupraHeader user_type={user_type} />
+    <Header />
+    <AboutUs />
+    <Footer />
     </div>
   )
 }

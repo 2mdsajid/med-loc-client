@@ -5,7 +5,7 @@ import TelegramIcon from '@mui/icons-material/Telegram';
 
 function Footer() {
   return (
-    <div className='bg-footcolor sm:absolute sm:bottom-0 w-full'>
+    <div className='bg-footcolor sm:absolute sm:bottom-0 w-screen'>
       <div className='w-full mt-1 flex flex-col items-center sm:items-start sm:flex-row sm:justify-evenly'>
         <div className='flex flex-col my-2 '>
           <p className='font-bold underline'>TEST</p>
