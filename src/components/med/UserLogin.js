@@ -39,7 +39,7 @@ function UserLogin({renderuserProfile}) {
 
       const data = await res.json()
 
-      console.log(data)
+      console.log('profile data after login',data)
       
       
       if (data.status === 400 || !data) {
@@ -53,9 +53,18 @@ function UserLogin({renderuserProfile}) {
         }, 2000);
 
       } else {
+
         Cookies.set('logintoken', data.logintoken)
-        // console.log('logintoken',data.logintoken)
-        storelocalStorage('userdaa', data.user) //storing the user data to local storage
+        // console.log('logintoken',data)
+        // storelocalStorage('userdaa', data.user) //storing the user data to local storage
+        
+        storelocalStorage('userinfo',{
+          id:data.user.id,
+          username:data.user.username,
+          email:data.user.email,
+          tests:data.user.tests
+      })
+
         setsuccessMessage('success') //success message
         renderuserProfile()
         

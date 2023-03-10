@@ -9,6 +9,8 @@ import { checkAnswer } from './functions';
 import ShowAns from './re-comp/ShowAns';
 import { SupraHeader } from './re-comp/Header'
 
+import { storelocalStorage } from './functions';
+
 
 // import React from 'react'
 
@@ -49,7 +51,7 @@ function ResultShow() {
     // SHIW ANSWERS
 
     // SAVE TEST DATA IN THE RESPECTIVE USERS DATABASE
-    const saveTestToUser = async (testmode, testtitle, totalscore, totalwrong, unattempt, totaltimetaken, questions) => {
+    const saveTestToUser = async (testmode, testtitle, totalscore, totalwrong, unattempt, totaltimetaken, questions,testid) => {
 
 
         // const { testmode,testtitle,totalscore,totalwrong,unattempt,totaltimetaken,questions} = req.body
@@ -68,16 +70,27 @@ function ResultShow() {
                 totalwrong,
                 unattempt,
                 totaltimetaken,
-                questions
+                questions,
+                testid
             })
         })
 
         const data = await res.json()
 
-        if (data.status === 401 || !data) {
-            console.log('user not logged in')
-        } else {
-            console.log('user logged in')
+        // console.log('user save',data)
+
+        if (data.status === 400 || !data) {
+            console.log(data.message)
+        } else if (data.status === 200) {
+
+            storelocalStorage('userinfo', {
+                id: data.user.id,
+                username: data.user.username,
+                email: data.user.email,
+                tests: data.user.tests
+            })
+
+            console.log(data.message)
         }
     }
 
@@ -182,6 +195,7 @@ function ResultShow() {
         //     questions}
 
         if (wrongscore > 0 || rightscore > 0 || unattemptscore > 0) {
+            console.log('testid,', test._id)
             const savetesttouserstatus = saveTestToUser(
                 test.testname,
                 test.testtitle,
@@ -189,7 +203,9 @@ function ResultShow() {
                 wrongscore,
                 unattemptscore,
                 test.totaltimetaken,
-                questions)
+                questions,
+                test._id
+                )
 
             const saveusertoteststatus = saveUserToTest(
                 test._id,
@@ -209,13 +225,15 @@ function ResultShow() {
         setQuestions(questions)
         setTest(test)
 
+        // console.log('test in result',test)
+
         // console.log('before question passed to function')
         const res = calcu(questions)
         // console.log('right score in useeffect1',rightscore)
         // console.log('result from fun in use effect', res)
 
         // setObj(objData)
-        console.log('use effect', test)
+        // console.log('use effect', test)
 
         // const { _id, ...newquestions } = questions;
 

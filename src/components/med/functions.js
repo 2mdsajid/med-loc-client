@@ -40,6 +40,29 @@ const deletelocalStorage = async (key) => {
   }
 }
 
+const updateTestIdsInLocalStorage = async (newTestId) => {
+  try {
+    // Retrieve the existing array from local storage
+    let existingTestIds = await localForage.getItem('testsid');
+
+    // If no existing array is found, create a new array
+    if (!existingTestIds) {
+      existingTestIds = [];
+    }
+
+    // Add the new test ID(s) to the existing array
+    existingTestIds.push(newTestId); // or use other array methods as per your requirements
+
+    // Store the updated array back into local storage
+    await localForage.setItem('testsid', existingTestIds);
+
+    console.log('Test IDs updated successfully!');
+  } catch (error) {
+    console.error('Error updating test IDs: ', error);
+  }
+};
+
+
 function formatDate(dateString) {
   const date = new Date(dateString);
   const year = date.getFullYear();
@@ -81,4 +104,4 @@ const userLoggedIn = async () => {
   }
 }
 
-export { formatDate ,storelocalStorage, loadlocalStorage, updatelocalStorage, deletelocalStorage, userLoggedIn }
+export { formatDate,updateTestIdsInLocalStorage ,storelocalStorage, loadlocalStorage, updatelocalStorage, deletelocalStorage, userLoggedIn }

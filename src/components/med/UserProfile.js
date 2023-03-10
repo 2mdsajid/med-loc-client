@@ -9,7 +9,7 @@ import UserLogin from './UserLogin';
 
 import { formatDate } from './functions';
 
-import { loadlocalStorage, storelocalStorage } from './functions';
+import { loadlocalStorage, storelocalStorage, updateTestIdsInLocalStorage } from './functions';
 
 import LogoAnimation from './re-comp/LogoAnimation';
 
@@ -58,13 +58,18 @@ function UserProfile() {
                 })
 
                 const data = await res.json()
+
+                // console.log('data in profile',data)
                 setuserInfo(data.userdata)
                 setuserTests(data.userdata.tests)
 
-                storelocalStorage('userinfo',{
-                    username:userinfo.username,
-                    email:userinfo.email
+                storelocalStorage('userinfo', {
+                    id: data.userdata.id,
+                    username: data.userdata.username,
+                    email: data.userdata.email,
+                    tests: data.userdata.tests
                 })
+
 
                 setloggedIn(true)
                 setshowlogoAnimation(false) //loading animation
@@ -98,7 +103,7 @@ function UserProfile() {
         <div className='bg-testbg min-h-screen w-screen flex flex-col items-center'>
             <SupraHeader />
             {loggedin ? <>
-                {showlogoanimation ? <LogoAnimation /> :<div className='w-full sm:min-h-full sm:w-4/5 lg:w-3/5 flex flex-col sm:flex-row '>
+                {showlogoanimation ? <LogoAnimation /> : <div className='w-full sm:min-h-full sm:w-4/5 lg:w-3/5 flex flex-col sm:flex-row '>
                     <div className='mb-10 sm:mb-0 sm:w-2/5 sm:h-full'>
                         <h4 className='pl-3 mb-3 font-bold text-xl border-b-2 border-pcolor'>PROFILE</h4>
                         <p><span className='pl-3 font-bold'>Name :</span> {userinfo.username}</p>

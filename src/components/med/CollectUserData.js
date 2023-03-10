@@ -7,7 +7,7 @@ import Timer from './re-comp/Timer';
 
 import ROOT from '../Const';
 
-import { loadlocalStorage } from './functions';
+import { loadlocalStorage, storelocalStorage, updateTestIdsInLocalStorage } from './functions';
 
 import names from 'random-indian-name'
 import Cookies from 'js-cookie';
@@ -35,6 +35,8 @@ const CollectUserData = () => {
     const [nonamewarning, setnonameWarning] = useState('')
     const [userloggedin, setuserloggedIn] = useState(false)
     const [showstarttestButton, setshowstartButton] = useState(false)
+
+    const [alreadygiventest, setalreadygivenTest] = useState(false)
 
     const location = useLocation();
     // typeoftest === selectedtest from prev page
@@ -87,7 +89,7 @@ const CollectUserData = () => {
             // uncomment --------------------------------------
             return <>{showstarttestButton ?
                 <button className='bg-starttestcolor border p-1 rounded-md border-pcolor text-pcolor font-semibold hover:bg-cyan-900 hover:text-white ' onClick={startQuiz}>start test</button>
-                : <p><span className='text-lg  font-bold'>Test starts in - </span>{ <Timer expiryTimestamp={Date.now() + timeForTheTest} onExpire={handleCountdownComplete} />}
+                : <p><span className='text-lg  font-bold'>Test starts in - </span>{<Timer expiryTimestamp={Date.now() + timeForTheTest} onExpire={handleCountdownComplete} />}
                 </p>}</>;
             // return <button onClick={startQuiz}>start test</button>
         }
@@ -103,39 +105,97 @@ const CollectUserData = () => {
 
     // TO GET THE USERNAME IF USER LOGGED IN
     const getUserName = async () => {
+
+        // console.log('test data', typeoftest)
+
+
         const logintoken = Cookies.get("logintoken")
 
-        if (logintoken){
-            const userinfo = loadlocalStorage('userinfo')
-        }
+        const testids = []
 
-        try {
-            const res = await fetch(ROOT + '/getusername', {
-                // mode: 'no-cors',
-                method: 'POST',
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    logintoken: logintoken
+        if (logintoken) {
+            const userinfo = await loadlocalStorage('userinfo')
+            console.log('userinfo',userinfo)
+
+            if (userinfo.id) {
+
+
+                // const testid = await loadlocalStorage('testsid')
+
+                userinfo.tests.map((test) => {
+                    testids.push(test.testid)
                 })
-            })
-            const data = await res.json()
 
-            if (data.status != 401) {
-                setuserName(data.username)
-                setuserloggedIn(true)
+                console.log('testids',testids)
+                console.log('typeoftest.id',typeoftest._id)
+
+
+
+                if (testids.includes(typeoftest._id)) {
+                    console.log('already given test')
+                    setalreadygivenTest(true)
+                } else {
+                    console.log('first test')
+                    setuserName(userinfo.username)
+                    setuserloggedIn(true)
+
+                }
+
+
+
+
+
+
             }
-        } catch (error) {
-            console.log(error)
+        } else {
+            const testid = await loadlocalStorage('testsid')
+
+            // console.log(testid)
+
+            if (testid) {
+                if (testid.includes(typeoftest._id)) {
+                    // console.log('already given test');
+                    setalreadygivenTest(true)
+                } else {
+                    updateTestIdsInLocalStorage(typeoftest._id);
+                }
+            } else {
+                updateTestIdsInLocalStorage(typeoftest._id)
+            }
+
         }
+
+        //     try {
+        // const res = await fetch(ROOT + '/getusername', {
+        //     // mode: 'no-cors',
+        //     method: 'POST',
+        //     headers: {
+        //         "Content-Type": "application/json"
+        //     },
+        //     body: JSON.stringify({
+        //         logintoken: logintoken
+        //     })
+        // })
+        //         const data = await res.json()
+
+        //         if (data.status != 401) {
+        //             setuserName(data.username)
+        //             setuserloggedIn(true)
+        //         }
+        //     } catch (error) {
+        //         console.log(error)
+        //     }
     }
 
 
     const startQuiz = () => {
+
+
+        // console.log('svjnsdljz')
+
         if (typeoftest.username) { //checking if the username is provided or not
             history(`/test/${typeoftest.testname}/${username}`, { state: { typeoftest: typeoftest } })
-            // console.log('start quiz')
+            console.log('start quiz')
         } else {
             setnonameWarning('please provide a name')
             const removeNoNameWarning = setTimeout(() => {
@@ -146,12 +206,22 @@ const CollectUserData = () => {
     }
 
     useEffect(() => {
+
+
+
         getUserName()
+
+
+
+
+
+
     }, [])
 
     return (<div className='bg-testbg h-screen w-screen flex flex-col'>
         <SupraHeader />
-        <div className='w-full h-full border sm:grid sm:place-items-center'>
+
+        {alreadygiventest ? <div className='h-full w-full text-lg font-bold flex flex-col items-center justify-center'><p>Already given the test</p><button className='my-5 p-1 bg-notebg rounded-lg font-semibold drop-shadow-md hover:bg-pcolor hover:text-white' onClick={() => history('/test')}>Back To Tests</button></div> : <div className='w-full h-full border sm:grid sm:place-items-center'>
             <div id='test' className='pl-3 pt-5  sm:bg-notebg drop-shadow-xl rounded-lg border-black sm:w-1/2 md:w-2/5 xl:w-2/5'>
                 <h3 className='border border-pcolor text-3xl inline-block p-2.5 my-5 bg-pcolor text-white capitalize rounded-xl'>test type : {typeoftest.testname}</h3>
                 {userloggedin && <p className='text-xl'><span className='font-bold'>username :</span> {username}</p>}
@@ -172,7 +242,10 @@ const CollectUserData = () => {
                 {/* {showstarttestButton ? <button onClick={startQuiz}>start test</button> : <> </>} */}
                 <p className='my-5 text-red-600 font-semibold'>{nonamewarning}</p>
             </div>
-        </div>
+        </div>}
+
+
+
     </div>
     )
 }

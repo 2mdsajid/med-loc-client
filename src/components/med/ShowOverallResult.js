@@ -10,10 +10,14 @@ function ShowOverallResult() {
   const location = useLocation()
 
   const selectedtest = location.state.typeoftest;
-  const sortedUsers = selectedtest.usersattended.sort((a, b) => b.totalscore - a.totalscore);
+  const sortedUsers = selectedtest.usersattended
+  if (sortedUsers){
+
+    const sortedUsers = selectedtest.usersattended.sort((a, b) => b.totalscore - a.totalscore);
+  }
   const numberofquestions = Number(selectedtest.biology) + Number(selectedtest.physics) + Number(selectedtest.chemistry) + Number(selectedtest.mat)
 
-  console.log(selectedtest)
+  console.log(selectedtest.date)
 
 
   return (
@@ -27,7 +31,7 @@ function ShowOverallResult() {
         <div className=' w-full sm:w-4/5 lg:w-3/5 xl:w-1/2 bg-notebg  p-3 rounded-md drop-shadow-md'>
           <p><span className='text-lg font-semibold'>Name of the Test : </span>{selectedtest.testtitle}</p>
           <p><span className='text-lg font-semibold'>Test Code : </span>{selectedtest.testname}</p>
-          <p><span className='text-lg font-semibold'>Number of Participants : </span>{selectedtest.usersattended.length}</p>
+          {sortedUsers && <p><span className='text-lg font-semibold'>Number of Participants : </span>{selectedtest.usersattended.length}</p>}
           <p><span className='text-lg font-semibold'>Number of Questions : </span>{numberofquestions}</p>
           <p><span className='text-lg font-semibold'>Duration : </span>{selectedtest.time.duration} Hour</p>
           <p><span className='text-lg font-semibold'>Date : </span>{formatDate(selectedtest.date)}</p>
@@ -44,7 +48,7 @@ function ShowOverallResult() {
             <p>Score</p>
           </div>
 
-          {sortedUsers.map((user,index) => {
+          {sortedUsers && sortedUsers.map((user,index) => {
             return (
               <div className='flex justify-between p-1 font-semibold border-b border-pcolor'>
                 <p>{index+1}</p>

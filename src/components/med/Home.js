@@ -36,6 +36,30 @@ function Home() {
 
   useEffect(() => {
     // setIsTrue(!isTrue);
+
+
+    const addVisitors = async () => {
+      try {
+
+        const res = await fetch(ROOT + '/addvisitors', {
+          // mode: 'no-cors',
+          method: 'GET',
+          headers: {
+            "Content-Type": "application/json"
+          }
+        })
+
+        const data = await res.json()
+        console.log(data.message)
+
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+    addVisitors()
+
+
   }, []);
 
 
