@@ -26,15 +26,13 @@ function ShowOverallResult() {
       <div className='w-full h-full px-5 flex flex-col justify-center items-center'>
         {/* test info */}
         <p className='text-2xl font-bold my-5'>Test Info</p>
-
-
         <div className=' w-full sm:w-4/5 lg:w-3/5 xl:w-1/2 bg-notebg  p-3 rounded-md drop-shadow-md'>
-          <p><span className='text-lg font-semibold'>Name of the Test : </span>{selectedtest.testtitle}</p>
-          <p><span className='text-lg font-semibold'>Test Code : </span>{selectedtest.testname}</p>
-          {sortedUsers && <p><span className='text-lg font-semibold'>Number of Participants : </span>{selectedtest.usersattended.length}</p>}
-          <p><span className='text-lg font-semibold'>Number of Questions : </span>{numberofquestions}</p>
-          <p><span className='text-lg font-semibold'>Duration : </span>{selectedtest.time.duration} Hour</p>
-          <p><span className='text-lg font-semibold'>Date : </span>{formatDate(selectedtest.date)}</p>
+          <p><span className='text-lg font-bold'>Name of the Test : </span>{selectedtest.testtitle}</p>
+          <p><span className='text-lg font-bold'>Test Code : </span>{selectedtest.testname}</p>
+          {sortedUsers && <p><span className='text-lg font-bold'>Number of Participants : </span>{selectedtest.usersattended.length}</p>}
+          <p><span className='text-lg font-bold'>Number of Questions : </span>{numberofquestions}</p>
+          <p><span className='text-lg font-bold'>Duration : </span>{selectedtest.time.duration} Hour</p>
+          <p><span className='text-lg font-bold'>Date : </span>{formatDate(selectedtest.date)}</p>
         </div>
 
         {/* result */}

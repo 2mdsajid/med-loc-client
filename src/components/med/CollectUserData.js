@@ -67,7 +67,7 @@ const CollectUserData = () => {
         const desiredHour = parseInt(props.time.value)
         //desiredTime.setDate(desiredHour); // Set the date to 1 day next
         desiredTime.setHours(desiredHour); // Set the hour to 4 PM
-        desiredTime.setMinutes(20); // Set the minutes to 0
+        desiredTime.setMinutes(2); // Set the minutes to 0
         desiredTime.setSeconds(0); // Set the seconds to 0
 
         const desiredTimeInSeconds = Math.floor(desiredTime.getTime() / 1000);
@@ -84,11 +84,11 @@ const CollectUserData = () => {
 
         if (props.time.type === 'free') {
             setshowstartButton(true)
-            return <button className='bg-starttestcolor border p-1 rounded-md border-pcolor text-pcolor font-semibold hover:bg-cyan-900 hover:text-white ' onClick={startQuiz}>start test</button>
+            return <button className='bg-starttestcolor p-1 rounded-md border-pcolor text-pcolor font-semibold drop-shadow-md hover:bg-pcolor hover:text-white my-3 ' onClick={startQuiz}>start test</button>
         } else {
             // uncomment --------------------------------------
             return <>{showstarttestButton ?
-                <button className='bg-starttestcolor border p-1 rounded-md border-pcolor text-pcolor font-semibold hover:bg-cyan-900 hover:text-white ' onClick={startQuiz}>start test</button>
+                <button className='bg-starttestcolor border p-1 rounded-md border-pcolor text-pcolor font-semibold hover:bg-pcolor hover:text-white ' onClick={startQuiz}>start test</button>
                 : <p><span className='text-lg  font-bold'>Test starts in - </span>{<Timer expiryTimestamp={Date.now() + timeForTheTest} onExpire={handleCountdownComplete} />}
                 </p>}</>;
             // return <button onClick={startQuiz}>start test</button>
@@ -223,8 +223,8 @@ const CollectUserData = () => {
 
         {alreadygiventest ? <div className='h-full w-full text-lg font-bold flex flex-col items-center justify-center'><p>Already given the test</p><button className='my-5 p-1 bg-notebg rounded-lg font-semibold drop-shadow-md hover:bg-pcolor hover:text-white' onClick={() => history('/test')}>Back To Tests</button></div> : <div className='w-full h-full border sm:grid sm:place-items-center'>
             <div id='test' className='pl-3 pt-5  sm:bg-notebg drop-shadow-xl rounded-lg border-black sm:w-1/2 md:w-2/5 xl:w-2/5'>
-                <h3 className='border border-pcolor text-3xl inline-block p-2.5 my-5 bg-pcolor text-white capitalize rounded-xl'>test type : {typeoftest.testname}</h3>
-                {userloggedin && <p className='text-xl'><span className='font-bold'>username :</span> {username}</p>}
+            <p className='text-xl'><span className='font-bold'>Name of Test :</span> {typeoftest.testtitle}</p>
+                {userloggedin && <p className='text-xl'><span className='font-bold'>User :</span> {username}</p>}
                 {typeoftest.physics && <p className='text-xl'><span className='font-bold'>Physics :</span> {typeoftest.physics} questions</p>}
                 {typeoftest.chemistry && <p className='text-xl'><span className='font-bold'>Chemistry :</span> {typeoftest.chemistry} questions</p>}
                 {typeoftest.biology && <p className='text-xl'><span className='font-bold'>Biology :</span> {typeoftest.biology} questions</p>}
@@ -236,7 +236,7 @@ const CollectUserData = () => {
                 {!userloggedin && <div className='mt-5 mb-5'><input className='border border-pcolor p-0.5 pl-1 mr-5 mb-5' type="text" placeholder="your name" name='c'
                     value={username}
                     onChange={(e) => setuserName(e.currentTarget.value)}
-                /><button className='border border-pcolor bg-rndmnamecolor py-0.5 px-3 text-pcolor font-bold rounded-lg hover:bg-slate-800 hover:text-white' onClick={generateRandom}>generate random name</button>
+                /><button className=' bg-rndmnamecolor py-0.5 px-3 text-pcolor font-bold rounded-lg hover:bg-slate-800 hover:text-white' onClick={generateRandom}>generate random name</button>
                 </div>}
                 <ShowTime time={typeoftest.time} />
                 {/* {showstarttestButton ? <button onClick={startQuiz}>start test</button> : <> </>} */}

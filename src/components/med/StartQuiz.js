@@ -7,6 +7,7 @@ import { storelocalStorage, loadlocalStorage, updatelocalStorage } from './funct
 import ROOT from '../Const';
 
 import { SupraHeader } from './re-comp/Header'
+import LogoAnimation from './re-comp/LogoAnimation'
 
 // var objData;
 function StartQuiz() {
@@ -49,12 +50,16 @@ function StartQuiz() {
     // TO USE THE DOM ELEMENT EVENTS
     const inputRef = useRef();
 
+
+    // LOGO ANIMATION
+    const [showlogoanimation, setshowlogoAnimation] = useState(true)
+
     const showCountDown = async (timearray) => {
 
         // console.log('totaltime in show cd before if-else', totaltime)
 
         if (timearray.type === 'free') {
-            const time = (Number(timearray.duration )*1000)
+            const time = (Number(timearray.duration) * 1000)
             // console.log('timearray', time)
             settotalTime(time)
             // console.log('totaltime in showCD free', totaltime)
@@ -186,6 +191,7 @@ function StartQuiz() {
         // console.log('totaltime in renderqn function', totaltime)
 
         showCountDown(selectedTest.time)
+        setshowlogoAnimation(false)
 
         if (data.status === 402 || !data) {
             console.log(`fail to fetch questions`);
@@ -247,31 +253,30 @@ function StartQuiz() {
     }, []);
 
     return (
-        <div className='bg-testbg  w-screen'>
+        <>        {showlogoanimation ? <><LogoAnimation /></> : <div className='bg-testbg  w-screen'>
             <SupraHeader />
-            <div className=" flex px-3 w-fit sm:w-full sm:px-10 md:px-20 lg:px-32 xl:px-40">
-                <div className="left h-auto p-1.5 border border-pcolor rounded-xl bg-sky-500 fixed top-44 right-2 sm:right-5 md:right-16 lg:right-24 xl:right-36">
-                    <p className='font-semibold underline text-2xl'>status</p>
-                    <p><span className='font-semibold'>Name :</span> {test.username}</p>
+            <div className=" flex px-3 w-fit mx-auto sm:w-2/3 lg:w-1/2">
+                <div className="left p-1.5 text-sm rounded-md bg-testbg drop-shadow fixed top-56 right-2 sm:right-5 md:right-16 lg:right-24 xl:right-56">
+                    {/* <p className='font-semibold underline text-sm'>STATUS</p> */}
                     <p><span className='font-semibold'>Qn attempt =</span> {qnattempt}</p>
-                    {totaltime > 0 && <Timer expiryTimestamp={Date.now() + totaltime} onExpire={handleCountdownComplete} />}
+                    {totaltime > 0 && <><span className='font-semibold'>Time Left :</span> <Timer expiryTimestamp={Date.now() + totaltime} onExpire={handleCountdownComplete} /></>}
                 </div>
                 <div className="middle w-full flex flex-col">
-                    <div className=' grid place-items-center'>
-                        <p className='w-fit bg-pcolor text-white p-1 my-1.5 rounded-md'>Questions</p>
-                    </div>
-
+                    <p className='text-2xl font-bold my-5 text-center'>Info</p>
                     <div className='w-full mb-5'>
-                        <div className='h-full w-full bg-green-400 p-1 border border-pcolor rounded-lg'>
-                            <h1 className='font-bold text-xl'>Details of the Test :</h1>
-                            <p><span className='text-lg font-semibold'>Name :</span>&nbsp; {test.testtitle} </p>
-                            <p><span className='text-lg font-semibold'>Duration :</span> &nbsp; {totaltime/1000} minutes</p>
+                        <div className='h-full w-full bg-notebg p-3 rounded-lg drop-shadow'>
+                            <p><span className='text-lg font-bold'>User :</span> {test.username}</p>
+                            <p><span className='text-lg font-bold'>Name :</span>&nbsp; {test.testtitle} </p>
+                            <p><span className='text-lg font-bold'>Duration :</span> &nbsp; {totaltime / 1000} minutes</p>
                         </div>
                     </div>
-                    <form onSubmit={checkAnswers} action="" method="POST">
+
+                    <form className='' onSubmit={checkAnswers} action="" method="POST">
+                        <p className='text-2xl font-bold my-5 text-center'>Questions</p>
+
                         {
                             questions.map((question, index) => {
-                                return (<div className="question mb-5 bg-testbg">
+                                return (<div className="question mb-5  p-2">
                                     <p className="qn font-bold text-lg"><span className="qn-num">Q.{index + 1}. </span> {question.qn} </p>
                                     {question.img && <img className='m-3' style={{ height: '200px' }} src={question.img} alt="Question Image" />}
                                     <div className='flex items-center'><input className='ml-3 w-5 h-5 cursor-pointer' onChange={getInput} type="radio" id={question._id} name={index} value='a' /><label className='ml-2 text-lg font-semibold' for="huey">{question.a}</label></div>
@@ -282,12 +287,13 @@ function StartQuiz() {
                             })
                         }
                         <div className='w-full flex justify-center'>
-                        <button className='bg-starttestcolor text-pcolor font-bold p-1.5 ml-5 my-10 border border-pcolor rounded-md hover:bg-pcolor hover:text-white' type="submit" ref={inputRef}>submit answers</button>
+                            <button className='bg-starttestcolor text-pcolor font-bold p-1.5 ml-5 my-10 border border-pcolor rounded-md hover:bg-pcolor hover:text-white' type="submit" ref={inputRef}>submit answers</button>
                         </div>
                     </form>
                 </div>
             </div>
-        </div>
+        </div>}</>
+
     )
 }
 
