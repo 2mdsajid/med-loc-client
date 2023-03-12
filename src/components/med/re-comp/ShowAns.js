@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
 
+import DoNotDisturbIcon from '@mui/icons-material/DoNotDisturb';
+
 function ShowAns(props) {
     const [questions, setQuestions] = useState([])
 
     useState(() => {
         setQuestions(props.questions)
-        console.log(props.questions)
+        // console.log(props.questions)
     }, [])
 
     const getQuestionClass = (uans) => {
@@ -35,17 +37,18 @@ function ShowAns(props) {
     }
 
     return (
-        <div className='anspage'>
+        <div className='anspage min-h-screen bg-testbg'>
             {
                 questions.map((question, index) => {
-                    return (<div className={getQuestionClass(question.uans)+' bg-testbg'}>
+                    return (<div className={getQuestionClass(question.uans)+' bg-testbg my-5'}>
                         <p className="qn ml-2 font-bold text-lg bg-testbg" id={question._id}><span className="qn-num">Q.{index + 1}. </span> {question.qn} </p>
                         {question.img && <img className='ml-2 text-lg font-semibold' style={{ height: '200px' }} src={question.img} alt="Question Image" />}
                         <p id={question.a} className={getAnswerClass('a', question.uans, question.ans)+' ml-2 text-lg font-semibold'}>a. {question.a}</p>
                         <p id={question.b} className={getAnswerClass('b', question.uans, question.ans)+' ml-2 text-lg font-semibold'}>b. {question.b}</p>
                         <p id={question.c} className={getAnswerClass('c', question.uans, question.ans)+' ml-2 text-lg font-semibold'}>c. {question.c}</p>
                         <p id={question.d} className={getAnswerClass('d', question.uans, question.ans)+' ml-2 text-lg font-semibold'}>d. {question.d}</p>
-                    <br/></div>)
+                    <div className='mb-3 mt-1 ml-2'>{question.uans === 'nan' && <p className='text-red-500 font-semibold'>Question Not Attempted</p>}</div>
+                    </div>)
                 })
             }
         </div>

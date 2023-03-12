@@ -5,6 +5,8 @@ import ROOT from '../Const';
 
 import { SupraHeader } from './re-comp/Header';
 
+import { validateEmail, validatePassword } from './functions';
+
 function UserSignup() {
 
   const history = useNavigate()
@@ -14,8 +16,8 @@ function UserSignup() {
     username: '', email: '', password: ''
   })
 
-  const [failedmessage,setfailedMessage] = useState('')
-  const [successmessage,setsuccessMessage] = useState('')
+  const [failedmessage, setfailedMessage] = useState('')
+  const [successmessage, setsuccessMessage] = useState('')
 
   //   STORING THE INPUT VALUES IN USER JAOS
   let name, value
@@ -32,27 +34,56 @@ function UserSignup() {
 
     const { username, email, password } = user
 
-    const res = await fetch(ROOT + "/usersignup", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(user)
-    })
+    const validemail = validateEmail(email)
+    const validpassword = validatePassword(password)
 
-    const data = await res.json()
+    if (validemail && validpassword) {
+
+      try {
+        const res = await fetch(ROOT + "/usersignup", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(user)
+        })
+
+        const data = await res.json()
 
 
-    if (data.status === 400 ||  !data) {
-      setfailedMessage(data.message)
-      // console.log('invalid')
-    } else {
-      // console.log('success')
-      setsuccessMessage(data.message)
-      Cookies.set('logintoken', data.usertoken)
+        if (data.status === 400 || !data) {
+          setfailedMessage(data.message)
+          // console.log('invalid')
+        } else {
+          // console.log('success')
+          setsuccessMessage(data.message)
+          Cookies.set('logintoken', data.usertoken)
 
-      history('/userprofile')
+          history('/userprofile')
 
+        }
+      } catch (error) {
+        console.log('Error in trycatch', error)
+      }
+
+    } else if (!validemail) {
+      setfailedMessage('Please Input a valid email')
+
+      setTimeout(() => {
+  
+        setfailedMessage('')
+        
+      }, 2000);
+
+    } else if (!validpassword){
+      
+      setfailedMessage('Password must be at least 8 characters long')
+
+      setTimeout(() => {
+  
+        // setfailedMessage('')
+        
+      }, 2000);
     }
 
   }
@@ -78,8 +109,8 @@ function UserSignup() {
           <input className='w-1/2 my-4 py-1 border border-pcolor bg-pcolor text-white font-bold rounded-lg hover:bg-blue-500 hover:text-white cursor-pointer' id='sign-up' type="submit" value="Sign Up" onClick={userSignup} />
           <p className='text-md my-5 mb-8 font-semibold'>Already a user? <span><Link className=' text-blue-500 cursor-pointer' to="/userprofile">LOGIN HERE</Link></span></p>
 
-          {failedmessage && <p className='my-3 text-md font-semibold text-red-500 '>{failedmessage}</p>}
-    {successmessage && <p className='my-3 text-md font-semibold text-green-500 '>{successmessage}</p>}
+          {failedmessage && <p className='my-3 text-sm text-center font-medium text-red-500 w-full'>{failedmessage}</p>}
+          {successmessage && <p className='my-3 text-md font-semibold text-green-500 '>{successmessage}</p>}
 
         </form>
       </div>

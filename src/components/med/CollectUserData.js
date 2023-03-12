@@ -67,7 +67,7 @@ const CollectUserData = () => {
         const desiredHour = parseInt(props.time.value)
         //desiredTime.setDate(desiredHour); // Set the date to 1 day next
         desiredTime.setHours(desiredHour); // Set the hour to 4 PM
-        desiredTime.setMinutes(2); // Set the minutes to 0
+        desiredTime.setMinutes(0); // Set the minutes to 0
         desiredTime.setSeconds(0); // Set the seconds to 0
 
         const desiredTimeInSeconds = Math.floor(desiredTime.getTime() / 1000);
@@ -229,7 +229,7 @@ const CollectUserData = () => {
                 {typeoftest.chemistry && <p className='text-xl'><span className='font-bold'>Chemistry :</span> {typeoftest.chemistry} questions</p>}
                 {typeoftest.biology && <p className='text-xl'><span className='font-bold'>Biology :</span> {typeoftest.biology} questions</p>}
                 {typeoftest.mat && <p className='text-xl'><span className='font-bold'>MAT :</span> {typeoftest.mat} questions</p>}
-                {typeoftest.time.duration && <p className='text-xl'><span className='font-bold'>Duration :</span> {typeoftest.time.value} Minutes</p>}
+                {typeoftest.time.duration && <p className='text-xl'><span className='font-bold'>Duration :</span> {typeoftest.time.duration} Minutes</p>}
 
 
                 {/* if user logged no input || username from userdatabase */}

@@ -3,7 +3,7 @@ import { useTimer } from 'react-timer-hook';
 
 // , onTick = () => { }
 
-function Timer({ expiryTimestamp, onExpire }) {
+function Timer({ expiryTimestamp, onExpire,onTick }) {
 
   function convertToTwoDigit(num) {
     return num < 10 ? `0${num}` : `${num}`;
@@ -19,9 +19,10 @@ function Timer({ expiryTimestamp, onExpire }) {
 
   useEffect(() => {
     setSec(seconds);
-    // onTick(minutes)
-  }, [seconds]); //this will run only if seconds change
-
+    if (typeof onTick === 'function') {
+      onTick(expiryTimestamp);
+    }
+  }, [seconds, onTick]);
 
   return (
   

@@ -72,6 +72,24 @@ function formatDate(dateString) {
   return `${month} ${day}, ${year}`;
 }
 
+function validateEmail(email) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  return emailRegex.test(email)
+}
+
+function validatePassword(password) {
+  const passwordRegex = /^.{8,}$/
+  return passwordRegex.test(password)
+}
+
+function secondsToMinutes(seconds) {
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = seconds % 60;
+  return `${minutes} Min : ${remainingSeconds} Sec`;
+}
+
+
+
 
 const userLoggedIn = async () => {
   // const res = await fetch('/checkloggedin', {
@@ -104,4 +122,4 @@ const userLoggedIn = async () => {
   }
 }
 
-export { formatDate,updateTestIdsInLocalStorage ,storelocalStorage, loadlocalStorage, updatelocalStorage, deletelocalStorage, userLoggedIn }
+export { secondsToMinutes,validatePassword,validateEmail,formatDate,updateTestIdsInLocalStorage ,storelocalStorage, loadlocalStorage, updatelocalStorage, deletelocalStorage, userLoggedIn }

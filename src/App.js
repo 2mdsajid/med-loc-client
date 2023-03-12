@@ -24,6 +24,7 @@ import ShowOverallResult from './components/med/ShowOverallResult';
 import { SupraHeader } from './components/med/re-comp/Header';
 
 import LogoAnimation from './components/med/re-comp/LogoAnimation';
+import ArchiveTests from './components/med/ArchiveTests';
 
 // HOME PAGE NAVIGATE
 import Notes from '../src/components/med/Notes'
@@ -56,7 +57,8 @@ function App() {
           <Route path="/notes" element={<Notes />} />
           <Route path="/confusingterms" element={<ConfusingTerms />} />
           <Route path="/test" element={<Test />} />
-          <Route path="/test/result/:testId" element={<ShowOverallResult />} />
+          <Route path="/results" element={<ArchiveTests />} />
+          <Route path="/results/:testId" element={<ShowOverallResult />} />
           <Route path="/addquestions" element={<AddQuestions />} />
           <Route path="/logo" element={<LogoAnimation />} />
           <Route path="/adminsite" element={<AdminSite />} />

@@ -11,6 +11,9 @@ import { SupraHeader } from './re-comp/Header'
 
 import { storelocalStorage } from './functions';
 
+import { Link } from 'react-router-dom';
+import { secondsToMinutes } from './functions';
+
 
 // import React from 'react'
 
@@ -37,11 +40,12 @@ function ResultShow() {
     // show button if it is daily test
     const [showanswer, setshowAnswer] = useState(false)
     const [ansText, setansText] = useState('See Answers')
+    const [anstextclass, setanstextClass] = useState('')
+    const [showansbtnclass, setshowansbtnClass] = useState('w-fit bg-notebg text-pcolor drop-shadow-md font-bold p-1 my-1.5 rounded-md hover:bg-pcolor hover:text-white')
     const [showoverallresultbtn, setshowoverallresultBtn] = useState(true)
     // const [newresult,setnewResult] = useState([])
     const [objData, setObj] = useState([])
     const [showoverallresult, setshowoverResult] = useState(false)
-    const [notloggedtext, setnotloggedText] = useState('')
 
     const location = useLocation();
 
@@ -49,9 +53,12 @@ function ResultShow() {
     const logintoken = Cookies.get("logintoken")
 
     // SHIW ANSWERS
+    const [notloggedtext, setnotloggedText] = useState('')
+    const [showloginbutton,setshowloginButton] = useState(false)
+
 
     // SAVE TEST DATA IN THE RESPECTIVE USERS DATABASE
-    const saveTestToUser = async (testmode, testtitle, totalscore, totalwrong, unattempt, totaltimetaken, questions,testid) => {
+    const saveTestToUser = async (testmode, testtitle, totalscore, totalwrong, unattempt, totaltimetaken, questions, testid) => {
 
 
         // const { testmode,testtitle,totalscore,totalwrong,unattempt,totaltimetaken,questions} = req.body
@@ -205,7 +212,7 @@ function ResultShow() {
                 test.totaltimetaken,
                 questions,
                 test._id
-                )
+            )
 
             const saveusertoteststatus = saveUserToTest(
                 test._id,
@@ -248,43 +255,59 @@ function ResultShow() {
 
 
     return (
-        <div className='w-screen min-h-screen   bg-testbg'>
+        <div className='w-screen min-h-screen  bg-testbg'>
             <SupraHeader />
-            <div className='w-full sm:flex sm:flex-col sm:items-center  '>
-                <div className='sm:w-4/5 pl-3 sm:pl-0 lg:w-2/5'>
-                    <div className='grid place-items-center my-5'>
-                        <p className='w-fit bg-pcolor text-white p-1 my-1.5 rounded-md'>Result</p>
-                    </div>
-                    <p><span className='font-bold text-lg'>Name :</span> {test.username}</p>
-                    <p><span className='font-bold text-lg'>Test Name :</span> {test.testtitle}</p>
-                    <p><span className='font-bold text-lg'>Total Score:</span> {rightscore}</p>
-                    <p><span className='font-bold text-lg'>Wrong :</span> {wrongscore}</p>
-                    <p><span className='font-bold text-lg'>Not Attempted :</span> {unattemptscore}</p>
-                    <p><span className='font-bold text-lg'>Total Time Taken :</span> {test.totaltimetaken}</p>
+            <div className='w-full sm:flex sm:flex-col sm:items-center px-2 '>
+                <p className='text-2xl font-bold my-5'>Results</p>
+                <div className=' w-full sm:w-4/5 lg:w-3/5 xl:w-1/2 bg-notebg  p-3 rounded-md drop-shadow-md'>
+                    <p className='capitalize'><span className='text-lg font-bold'>User : </span>{test.username}</p>
+                    <p><span className='text-lg font-bold'>Test Name : </span>{test.testtitle}</p>
+                    <p><span className='text-lg font-bold'>Total Score : </span>{rightscore}</p>
+                    <p><span className='text-lg font-bold'>Wrong : </span>{wrongscore}</p>
+                    <p><span className='text-lg font-bold'>Not Attempted : </span>{unattemptscore}</p>
+                    <p><span className='text-lg font-bold'>Total Time Taken : </span>{secondsToMinutes(test.totaltimetaken)}</p>
                 </div>
-                <div className='sm:w-4/5 lg:w-2/5'>
 
+                <div className='w-full sm:w-4/5 lg:w-3/5 xl:w-1/2 '>
                     <div className='grid place-items-center my-5'>
-                        <button className='w-fit bg-pcolor text-white p-1 my-1.5 rounded-md' type="submit" onClick={() => {
-                            setshowAnswer(true)
-                            setansText('Answers')
-                        }}>{ansText}</button>
+                        <button className={showansbtnclass} type="submit" onClick={() => {
+
+                            if (logintoken) {
+                                setshowAnswer(true)
+                                setansText('Answers')
+                                setanstextClass('text-2xl font-bold my-5')
+                                setshowansbtnClass('')
+                            } else {
+                                setnotloggedText('You must be logged in to view the answers !')
+                            }
+
+
+                        }}><p className={anstextclass}>{ansText}</p></button>
                     </div>
 
-                    {showanswer && <ShowAns questions={questions} />}
-                    {showoverallresultbtn && <button type="submit" onClick={showOverallResult}>see overall reesult </button>}
+
+                    {/* {showoverallresultbtn && <button type="submit" onClick={showOverallResult}>see overall reesult </button>}
                     {showoverallresult ? <h3>Overall Result</h3> : <p style={{ color: 'red' }} >{notloggedtext}</p>}
                     {
                         overallresult.map((result, index) => {
                             return <p>{index}. {result.username} : {result.totalscore}</p>
                         })
-                    }
+                    } */}
 
-                    <div className='my-5'>
-                        <button className='w-fit bg-contascolor text-white p-1 my-1.5 rounded-lg' type="submit" onClick={() => {
+                    <div className='my-5 flex flex-wrap space-x-4 justify-center bg-testbg'>
+                        {showanswer && <ShowAns questions={questions} />}
+                        <button className='w-fit bg-notebg text-pcolor font-bold p-1 my-1.5 rounded-lg drop-shadow-md hover:bg-pcolor hover:text-white' type="submit" onClick={() => {
                             history('/home')
-                        }}>Return to Home Page</button>
+                        }}>Back to Home</button>
+                        <button className='w-fit bg-notebg text-pcolor font-bold p-1 my-1.5 rounded-lg drop-shadow-md hover:bg-pcolor hover:text-white' type="submit" onClick={() => {
+                            history('/test')
+                        }}>Back to Tests</button>
+
                     </div>
+                    {notloggedtext && <div className='flex justify-center bg-testbg'>
+                        <p className='text-red-500 text-center'>{notloggedtext}</p>
+                        <Link className='font-semibold text-blue-500' to='/userprofile'> &nbsp; Login</Link>
+                    </div>}
                 </div>
             </div>
         </div>

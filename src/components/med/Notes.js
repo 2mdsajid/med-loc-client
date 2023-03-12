@@ -3,6 +3,7 @@ import parse from 'html-react-parser';
 import { useNavigate } from 'react-router-dom';
 
 import { SupraHeader } from './re-comp/Header'
+import Header from './re-comp/Header';
 
 import ROOT from '../Const';
 
@@ -81,6 +82,7 @@ function Notes() {
   return (
     <div className='min-h-screen w-screen bg-testbg'>
       <SupraHeader />
+      <Header />
       <div className='w-full h-full px-5 '>
     {/* NOTES VS CONFUSING TERS */}
 

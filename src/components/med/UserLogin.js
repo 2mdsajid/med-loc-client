@@ -7,6 +7,8 @@ import { storelocalStorage } from './functions';
 
 import { SupraHeader } from './re-comp/Header';
 
+import { validateEmail, validatePassword } from './functions';
+
 import Cookies from 'js-cookie';
 
 function UserLogin({renderuserProfile}) {
@@ -21,61 +23,72 @@ function UserLogin({renderuserProfile}) {
 
   const userLogin = async (e) => {
     e.preventDefault()
-  
-    const user = {
-      email: email,
-      password: password
-    }
 
-    try {
+    const validemail = validateEmail(email)
+    const validpassword = validatePassword(password)
 
-      const res = await fetch(ROOT + "/userlogin", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(user)
-      })
+    if(validemail && validpassword){
 
-      const data = await res.json()
-
-      console.log('profile data after login',data)
-      
-      
-      if (data.status === 400 || !data) {
-        console.log(data.message)
-        setinvalidMessage(data.message)
-
-        setTimeout(() => {
-
-          setinvalidMessage('')
-          
-        }, 2000);
-
-      } else {
-
-        Cookies.set('logintoken', data.logintoken)
-        // console.log('logintoken',data)
-        // storelocalStorage('userdaa', data.user) //storing the user data to local storage
-        
-        storelocalStorage('userinfo',{
-          id:data.user.id,
-          username:data.user.username,
-          email:data.user.email,
-          tests:data.user.tests
-      })
-
-        setsuccessMessage('success') //success message
-        renderuserProfile()
-        
-        // history('/userprofile')
+      const user = {
+        email: email,
+        password: password
       }
 
-    } catch (error) {
-      // console.log(error)
-      history('*')
+      try {
 
+        const res = await fetch(ROOT + "/userlogin", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(user)
+        })
+  
+        const data = await res.json()
+  
+        console.log('profile data after login',data)
+        
+        
+        if (data.status === 400 || !data) {
+          console.log(data.message)
+          setinvalidMessage(data.message)
+  
+          setTimeout(() => {
+  
+            setinvalidMessage('')
+            
+          }, 2000);
+  
+        } else {
+  
+          Cookies.set('logintoken', data.logintoken)
+          // console.log('logintoken',data)
+          // storelocalStorage('userdaa', data.user) //storing the user data to local storage
+          
+          storelocalStorage('userinfo',{
+            id:data.user.id,
+            username:data.user.username,
+            email:data.user.email,
+            tests:data.user.tests
+        })
+  
+          setsuccessMessage('success') //success message
+          renderuserProfile()
+          
+          // history('/userprofile')
+        }
+  
+      } catch (error) {
+        // console.log(error)
+        history('*')
+  
+      }
+
+    } else {
+      setinvalidMessage('Please put a Valid email or password')
     }
+
+    
   }
 
   return (

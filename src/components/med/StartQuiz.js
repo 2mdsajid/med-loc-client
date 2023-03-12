@@ -9,6 +9,8 @@ import ROOT from '../Const';
 import { SupraHeader } from './re-comp/Header'
 import LogoAnimation from './re-comp/LogoAnimation'
 
+import { secondsToMinutes } from './functions'
+
 // var objData;
 function StartQuiz() {
 
@@ -50,6 +52,9 @@ function StartQuiz() {
     // TO USE THE DOM ELEMENT EVENTS
     const inputRef = useRef();
 
+    // time taken
+    const [currentseconds,setcurrentSeconds] = useState(0)
+
 
     // LOGO ANIMATION
     const [showlogoanimation, setshowlogoAnimation] = useState(true)
@@ -59,7 +64,7 @@ function StartQuiz() {
         // console.log('totaltime in show cd before if-else', totaltime)
 
         if (timearray.type === 'free') {
-            const time = (Number(timearray.duration) * 1000)
+            const time = (Number(timearray.duration) * 1000 *60)
             // console.log('timearray', time)
             settotalTime(time)
             // console.log('totaltime in showCD free', totaltime)
@@ -87,12 +92,16 @@ function StartQuiz() {
         }
     }
 
+    const handleTimerTick = (seconds) =>{
+        setcurrentSeconds(seconds)
+    }
+
 
     const handleCountdownComplete = () => {
         inputRef.current.click()
         inputRef.current.blur()
         // settotalTime(0)
-        console.log('totaltime in handle countdown', totaltime)
+        // console.log('totaltime in handle countdown', totaltime)
         // console.log('totaltime',ttime)
         // console.log('out')
     }
@@ -165,7 +174,7 @@ function StartQuiz() {
         const selectedTest = await location.state.typeoftest;
         setTest(selectedTest)
 
-        console.log('renderqn in start quiz')
+        // console.log('renderqn in start quiz')
 
         const res = await fetch(`${ROOT}/getallquestion`, {
             method: "POST",
@@ -216,7 +225,7 @@ function StartQuiz() {
         //     setdefAns(prevArray => [...prevArray, ansObj])
         // })
     }
-
+      
 
 
 
@@ -224,22 +233,29 @@ function StartQuiz() {
     /* CHECK ANSWERS ON/WHLE SUMBITTING THE ANSWERS */
     const checkAnswers = async (e) => {
 
+        const elapsedtime = (totaltime- (currentseconds-Date.now()))
+
+        // console.log('currentseconds',elapsedtime)
+        // console.log('totaltime',totaltime)
+        const totaltimetaken = elapsedtime
+        console.log('timetaken', secondsToMinutes(elapsedtime))
+
         e.preventDefault();
         // console.log('submitted')
 
         // await calcu()
 
-        test.totaltimetaken = totaltime
+        test.totaltimetaken = totaltimetaken
         // console.log('timeleft', timetaken)
 
-        const objData = {
-            testmode: test.testname,
-            totalscore: rightscore,
-            totalwrong: wrongscore,
-            totaltimetaken: totaltime
-        }
+        // const objData = {
+        //     testmode: test.testname,
+        //     totalscore: rightscore,
+        //     totalwrong: wrongscore,
+        //     totaltimetaken: totaltimetaken
+        // }
 
-        console.log('test data in check answer', test)
+        // console.log('test data in check answer', test)
 
         history(`/test/${test.testname}/${test.username}/result`, { state: { questions: questions, test: test } })
 
@@ -248,7 +264,7 @@ function StartQuiz() {
     useEffect(() => {
         renderQuestion()
         // console.log('use effect start quiz page')
-        console.log('totaltime in useeffect', totaltime)
+        // console.log('totaltime in useeffect', totaltime)
 
     }, []);
 
@@ -256,18 +272,18 @@ function StartQuiz() {
         <>        {showlogoanimation ? <><LogoAnimation /></> : <div className='bg-testbg  w-screen'>
             <SupraHeader />
             <div className=" flex px-3 w-fit mx-auto sm:w-2/3 lg:w-1/2">
-                <div className="left p-1.5 text-sm rounded-md bg-testbg drop-shadow fixed top-56 right-2 sm:right-5 md:right-16 lg:right-24 xl:right-56">
+                <div className="left p-1.5 text-sm rounded-md bg-testbg drop-shadow fixed top-56 right-[2rem] sm:right-[8rem] md:right-[10rem] lg:right-[18rem] xl:right-[27rem]">
                     {/* <p className='font-semibold underline text-sm'>STATUS</p> */}
                     <p><span className='font-semibold'>Qn attempt =</span> {qnattempt}</p>
-                    {totaltime > 0 && <><span className='font-semibold'>Time Left :</span> <Timer expiryTimestamp={Date.now() + totaltime} onExpire={handleCountdownComplete} /></>}
+                    {totaltime > 0 && <><span className='font-semibold'>Time Left :</span> <Timer expiryTimestamp={Date.now() + totaltime} onExpire={handleCountdownComplete} onTick={handleTimerTick} /></>}
                 </div>
                 <div className="middle w-full flex flex-col">
                     <p className='text-2xl font-bold my-5 text-center'>Info</p>
                     <div className='w-full mb-5'>
                         <div className='h-full w-full bg-notebg p-3 rounded-lg drop-shadow'>
-                            <p><span className='text-lg font-bold'>User :</span> {test.username}</p>
+                            <p className='capitalize'><span className='text-lg font-bold '>User :</span> {test.username}</p>
                             <p><span className='text-lg font-bold'>Name :</span>&nbsp; {test.testtitle} </p>
-                            <p><span className='text-lg font-bold'>Duration :</span> &nbsp; {totaltime / 1000} minutes</p>
+                            <p><span className='text-lg font-bold'>Duration :</span> &nbsp; {test.time.duration} minutes</p>
                         </div>
                     </div>
 
@@ -287,7 +303,7 @@ function StartQuiz() {
                             })
                         }
                         <div className='w-full flex justify-center'>
-                            <button className='bg-starttestcolor text-pcolor font-bold p-1.5 ml-5 my-10 border border-pcolor rounded-md hover:bg-pcolor hover:text-white' type="submit" ref={inputRef}>submit answers</button>
+                            <button className='bg-notebg drop-shadow-md text-pcolor font-bold p-1.5 ml-5 my-10 rounded-md hover:bg-pcolor hover:text-white' type="submit" ref={inputRef}>submit answers</button>
                         </div>
                     </form>
                 </div>
