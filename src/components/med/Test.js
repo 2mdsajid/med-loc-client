@@ -42,7 +42,7 @@ function Test() {
   const [tests, setTests] = useState([])
   const [showloadanimation, setshowloadAnimation] = useState(true)
 
-  const [currentcategory, setcurrentCategory] = useState('modeltest')
+  const [currentcategory, setcurrentCategory] = useState('dailytest')
 
   // TO GET CATEGORY WISE OBJECTS OF TEST
   function filterByCategory(objects, category) {

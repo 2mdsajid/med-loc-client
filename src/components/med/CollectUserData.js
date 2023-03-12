@@ -67,7 +67,7 @@ const CollectUserData = () => {
         const desiredHour = parseInt(props.time.value)
         //desiredTime.setDate(desiredHour); // Set the date to 1 day next
         desiredTime.setHours(desiredHour); // Set the hour to 4 PM
-        desiredTime.setMinutes(0); // Set the minutes to 0
+        desiredTime.setMinutes(5); // Set the minutes to 0
         desiredTime.setSeconds(0); // Set the seconds to 0
 
         const desiredTimeInSeconds = Math.floor(desiredTime.getTime() / 1000);

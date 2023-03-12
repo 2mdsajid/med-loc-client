@@ -1,4 +1,4 @@
-const ROOT = 'https://medlocusserver.adaptable.app/'
-// const ROOT = ''
+// const ROOT = 'https://medlocusserver.adaptable.app/'
+const ROOT = ''
 
 export default ROOT

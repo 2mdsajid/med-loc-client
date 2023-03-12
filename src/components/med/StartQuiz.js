@@ -72,9 +72,9 @@ function StartQuiz() {
 
         else if (timearray.type === 'timed') {
             const desiredTime = new Date();
-            desiredTime.setHours((Number(timearray.value) + Number(timearray.duration)))
+            desiredTime.setHours((Number(timearray.value) + Number(timearray.duration)/60))
             // desiredTime.setHours(18)
-            desiredTime.setMinutes(51)
+            desiredTime.setMinutes(0)
             desiredTime.setSeconds(0)
             // console.log('desired hr in ', desiredTime.getHours())
             const desiredTimeInSeconds = Math.floor(desiredTime.getTime() / 1000);
@@ -234,11 +234,12 @@ function StartQuiz() {
     const checkAnswers = async (e) => {
 
         const elapsedtime = (totaltime- (currentseconds-Date.now()))
+        // console.log('curr')
 
-        // console.log('currentseconds',elapsedtime)
+        // console.log('currentseconds',currentseconds-Date.now())
         // console.log('totaltime',totaltime)
         const totaltimetaken = elapsedtime
-        console.log('timetaken', secondsToMinutes(elapsedtime))
+        // console.log('timetaken', secondsToMinutes(elapsedtime))
 
         e.preventDefault();
         // console.log('submitted')
