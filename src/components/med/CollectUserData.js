@@ -115,37 +115,29 @@ const CollectUserData = () => {
 
         if (logintoken) {
             const userinfo = await loadlocalStorage('userinfo')
-            console.log('userinfo',userinfo)
+            // console.log('userinfo', userinfo)
 
             if (userinfo.id) {
 
+                setuserName(userinfo.username)
+                setuserloggedIn(true)
+
 
                 // const testid = await loadlocalStorage('testsid')
-
                 userinfo.tests.map((test) => {
                     testids.push(test.testid)
                 })
 
-                console.log('testids',testids)
-                console.log('typeoftest.id',typeoftest._id)
-
-
-
-                if (testids.includes(typeoftest._id)) {
-                    console.log('already given test')
-                    setalreadygivenTest(true)
-                } else {
-                    console.log('first test')
-                    setuserName(userinfo.username)
-                    setuserloggedIn(true)
-
+                if (!typeoftest.category === 'modeltest') {
+                    if (testids.includes(typeoftest._id)) {
+                        console.log('already given test')
+                        setalreadygivenTest(true)
+                    } else {
+                        console.log('first test')
+                        setuserName(userinfo.username)
+                        setuserloggedIn(true)
+                    }
                 }
-
-
-
-
-
-
             }
         } else {
             const testid = await loadlocalStorage('testsid')
@@ -156,13 +148,8 @@ const CollectUserData = () => {
                 if (testid.includes(typeoftest._id)) {
                     // console.log('already given test');
                     setalreadygivenTest(true)
-                } else {
-                    updateTestIdsInLocalStorage(typeoftest._id);
                 }
-            } else {
-                updateTestIdsInLocalStorage(typeoftest._id)
             }
-
         }
 
         //     try {
@@ -179,8 +166,8 @@ const CollectUserData = () => {
         //         const data = await res.json()
 
         //         if (data.status != 401) {
-        //             setuserName(data.username)
-        //             setuserloggedIn(true)
+        // setuserName(data.username)
+        // setuserloggedIn(true)
         //         }
         //     } catch (error) {
         //         console.log(error)
@@ -223,7 +210,7 @@ const CollectUserData = () => {
 
         {alreadygiventest ? <div className='h-full w-full text-lg font-bold flex flex-col items-center justify-center'><p>Already given the test</p><button className='my-5 p-1 bg-notebg rounded-lg font-semibold drop-shadow-md hover:bg-pcolor hover:text-white' onClick={() => history('/test')}>Back To Tests</button></div> : <div className='w-full h-full border sm:grid sm:place-items-center'>
             <div id='test' className='pl-3 pt-5  sm:bg-notebg drop-shadow-xl rounded-lg border-black sm:w-1/2 md:w-2/5 xl:w-2/5'>
-            <p className='text-xl'><span className='font-bold'>Name of Test :</span> {typeoftest.testtitle}</p>
+                <p className='text-xl'><span className='font-bold'>Name of Test :</span> {typeoftest.testtitle}</p>
                 {userloggedin && <p className='text-xl'><span className='font-bold'>User :</span> {username}</p>}
                 {typeoftest.physics && <p className='text-xl'><span className='font-bold'>Physics :</span> {typeoftest.physics} questions</p>}
                 {typeoftest.chemistry && <p className='text-xl'><span className='font-bold'>Chemistry :</span> {typeoftest.chemistry} questions</p>}

@@ -11,6 +11,8 @@ import LogoAnimation from './re-comp/LogoAnimation'
 
 import { secondsToMinutes } from './functions'
 
+import { updateTestIdsInLocalStorage } from './functions'
+
 // var objData;
 function StartQuiz() {
 
@@ -173,6 +175,7 @@ function StartQuiz() {
         // TO GET THE TEST DATA FROM PREV PAGE
         const selectedTest = await location.state.typeoftest;
         setTest(selectedTest)
+        console.log(selectedTest)
 
         // console.log('renderqn in start quiz')
 
@@ -201,6 +204,9 @@ function StartQuiz() {
 
         showCountDown(selectedTest.time)
         setshowlogoAnimation(false)
+
+        saveConnectedUsers(selectedTest._id,selectedTest.username)
+        updateTestIdsInLocalStorage(selectedTest._id);
 
         if (data.status === 402 || !data) {
             console.log(`fail to fetch questions`);
@@ -260,6 +266,22 @@ function StartQuiz() {
 
         history(`/test/${test.testname}/${test.username}/result`, { state: { questions: questions, test: test } })
 
+    }
+
+    const saveConnectedUsers =async (testid,username) =>{
+        const res = await fetch(`${ROOT}/saveconnectedusers`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                id: testid,
+                username: username
+            })
+        });
+
+        const data = await res.json()
+        // console.log('data after adidng connected users',data)
     }
 
     useEffect(() => {

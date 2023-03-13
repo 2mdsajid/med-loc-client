@@ -2,12 +2,19 @@ import React, { useState } from 'react'
 import ROOT from '../Const'
 import { SupraHeader } from './re-comp/Header'
 
+import Alert from '@mui/material/Alert';
+
 // import ROOT from '../Const'
 
 function AdminSite() {
 
-    const [showsection, setshowSection] = useState('addtest')
+    const [showsection, setshowSection] = useState('viewstatus')
     const [successmessage, setsuccessMessage] = useState('')
+
+    const [showsuccessalert, setshowsuccessAlert] = useState(false)
+    const [alertseverity,setalertSeverity] = useState('success')
+    const [alertmessage,setalertMessage] = useState('')
+
     const [failedmessage, setfailedmessage] = useState('')
 
 
@@ -16,6 +23,8 @@ function AdminSite() {
     // QUESTIONS-----------------------------
     const [qnimg, setqnImg] = useState({})
     const [imagetype, setimageType] = useState(false)
+
+
     const [question, setQuestion] = useState({
         qn: '', a: '', b: '', c: '', d: '', ans: '', chap: '', category: ''
     })
@@ -76,10 +85,21 @@ function AdminSite() {
             })
 
             const data = await res.json()
+
+            setalertMessage(data.message)
+            setshowsuccessAlert(true)
+
+            console.log(data.message)
+
             if (data.status === 400 || !data) {
-                console.log(data.message)
-            } else {
-                console.log(data.message)
+                setalertSeverity('warning')
+        
+            } else if (data.status === 200) {
+                setalertSeverity('success')
+                setQuestion({
+                    qn: '', a: '', b: '', c: '', d: '', ans: '', chap: '', category: ''
+                })
+                setqnImg({})
             }
 
         } else {
@@ -98,11 +118,27 @@ function AdminSite() {
 
             const data = await res.json()
 
+
+            setalertMessage(data.message)
+            setshowsuccessAlert(true)
+
+            console.log(data.message)
+
             if (data.status === 400 || !data) {
-                console.log(data.message)
-            } else {
-                console.log(data.message)
+                setalertSeverity('warning')
+        
+            } else if (data.status === 200) {
+                setalertSeverity('success')
+                setQuestion({
+                    qn: '', a: '', b: '', c: '', d: '', ans: '', chap: '', category: ''
+                })
             }
+
+            // if (data.status === 400 || !data) {
+            //     console.log(data.message)
+            // } else {
+            //     console.log(data.message)
+            // }
 
         }
 
@@ -161,11 +197,18 @@ function AdminSite() {
             })
 
             const data = await res.json()
+            
+            setalertMessage(data.message)
+            setshowsuccessAlert(true)
 
             if (data.status === 400 || !data) {
-                console.log(data.message)
-            } else {
-                console.log(data.message)
+                setalertSeverity('warning')
+        
+            } else if (data.status === 200) {
+                setalertSeverity('success')
+                setTest({
+                    testtitle: '', testname: '', physics: '', chemistry: '', biology: '', mat: '', type: '', value: '', duration: '', repeatafter: '', category: ''
+                })
             }
 
         } catch (error) {
@@ -228,6 +271,41 @@ function AdminSite() {
         }
     }
 
+    // Status---------------------------------------------
+    const [dailytests,setdailyTests] = useState([])
+    const getTests = async () => {
+        try {
+            const res = await fetch(ROOT + '/getdailytests', {
+                method: 'GET',
+                headers: {
+                    // because there is cookies
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            })
+
+            const data = await res.json()
+
+            if (data.status === 200) {
+                setdailyTests(data.tests)
+                // setshowloadAnimation(false)
+            }
+
+            console.log(data.message)
+
+            // console.log(data)
+        } catch (error) {
+            console.error('Error in trycatch', error);
+        }
+    }
+
+
+    useState(()=>{
+
+        getTests()
+
+    },[])
+
 
     return (
         <div className='w-screen min-h-screen bg-testbg'>
@@ -240,6 +318,7 @@ function AdminSite() {
                     <button id='addnote' onClick={(e) => setshowSection(e.currentTarget.id)} className=' p-1 m-1 rounded-lg bg-cyan-300 drop-shadow-md hover:bg-pcolor hover:text-white'>Add notes</button>
                     <button id='viewstatus' onClick={(e) => setshowSection(e.currentTarget.id)} className=' p-1 m-1 rounded-lg bg-cyan-300 drop-shadow-md hover:bg-pcolor hover:text-white'>View Status</button>
                 </div>
+                {showsuccessalert && <Alert severity={alertseverity} onClose={() => { setshowsuccessAlert(false) }}>{alertmessage}</Alert>}
 
                 {/* SECTIONS */}
 
@@ -247,6 +326,7 @@ function AdminSite() {
                 {(showsection === 'aq') && <div className='w-full max-h border border-pcolor p-2'>
 
                     <form className='mx-auto w-full sm:w-2/3 lg:w-1/2 xl:w-1/3 flex flex-col items-center' action="" method="post">
+
                         <h4 className='font-bold my-5 text-xl '>Add Question</h4>
 
                         {renderInput("qn", handleInput, question.qn, "question")}
@@ -348,7 +428,18 @@ function AdminSite() {
                 </div>}
 
                 {/* STATUS */}
-                {(showsection === 'viewstatus') && <div>status</div>}
+                {(showsection === 'viewstatus') && <div className='mx-auto w-full sm:w-2/3 lg:w-1/2 xl:w-1/3 my-5'>
+
+                {dailytests && dailytests.map((test,index)=>{
+                    return (<>
+                    <p><span className='font-bold '>{index+1}. Name of Test : </span>{test.testtitle}</p>
+                    {test.userconnected && <p><span className='font-bold '>Users Connected : </span>{test.usersconnected.length}</p>}
+                    {test.usersattended && <p><span className='font-bold '>Users Attended : </span>{test.usersattended.length}</p>}
+                    </>)
+                })}
+
+
+                </div>}
             </div>
         </div>
     )

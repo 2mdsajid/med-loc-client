@@ -54,7 +54,7 @@ function ResultShow() {
 
     // SHIW ANSWERS
     const [notloggedtext, setnotloggedText] = useState('')
-    const [showloginbutton,setshowloginButton] = useState(false)
+    const [showloginbutton, setshowloginButton] = useState(false)
 
 
     // SAVE TEST DATA IN THE RESPECTIVE USERS DATABASE
@@ -294,15 +294,16 @@ function ResultShow() {
                         })
                     } */}
 
-                    <div className='my-5 flex flex-wrap space-x-4 justify-center bg-testbg'>
+                    <div className='my-5 flex flex-col items-center space-x-4 justify-center bg-testbg'>
                         {showanswer && <ShowAns questions={questions} />}
-                        <button className='w-fit bg-notebg text-pcolor font-bold p-1 my-1.5 rounded-lg drop-shadow-md hover:bg-pcolor hover:text-white' type="submit" onClick={() => {
-                            history('/home')
-                        }}>Back to Home</button>
-                        <button className='w-fit bg-notebg text-pcolor font-bold p-1 my-1.5 rounded-lg drop-shadow-md hover:bg-pcolor hover:text-white' type="submit" onClick={() => {
-                            history('/test')
-                        }}>Back to Tests</button>
-
+                        <div>
+                            <button className='w-fit bg-notebg text-pcolor font-bold p-1 my-1.5 mx-1 rounded-lg drop-shadow-md hover:bg-pcolor hover:text-white' type="submit" onClick={() => {
+                                history('/home')
+                            }}>Back to Home</button>
+                            <button className='w-fit bg-notebg text-pcolor font-bold p-1 my-1.5 mx-1 rounded-lg drop-shadow-md hover:bg-pcolor hover:text-white' type="submit" onClick={() => {
+                                history('/test')
+                            }}>Back to Tests</button>
+                        </div>
                     </div>
                     {notloggedtext && <div className='flex justify-center bg-testbg'>
                         <p className='text-red-500 text-center'>{notloggedtext}</p>
