@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Cookies from 'js-cookie'; //cookies library
-
+import ROOT from './Const';
 // use link to navigte to a.href || link = href || navigate = redirect
 import { Link, useNavigate } from 'react-router-dom'
 
@@ -30,6 +30,27 @@ function Home() {
   }
 
   useEffect(() => {
+
+    const addVisitors = async () => {
+      try {
+
+        const res = await fetch(ROOT + '/addvisitors', {
+          // mode: 'no-cors',
+          method: 'GET',
+          headers: {
+            "Content-Type": "application/json"
+          }
+        })
+
+        const data = await res.json()
+        console.log(data.message)
+
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+    addVisitors()
 
     const user_type = Cookies.get("usertype")
     if(user_type){
